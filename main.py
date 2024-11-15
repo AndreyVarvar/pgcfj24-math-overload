@@ -40,6 +40,7 @@ class Game():
 
     def render(self, dt):
         self.window.fill((240, 240, 240))
+        self.screen.fill((240, 240, 240))
 
         for element in self.current_scene.elements:
             self.current_scene.elements[element].render(self.screen)
