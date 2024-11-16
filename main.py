@@ -3,6 +3,9 @@ import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
 from src.graph import Graph
+from src.constants import *
+
+from src.UI.button import Button
 
 pg.init()
 
@@ -17,11 +20,12 @@ class Game():
         self.running = True
 
         self.clock = pg.time.Clock()
-        self.FPS = 64
+        self.FPS = 64*64
 
         self.scenes = {
             "game": Scene({
-                "graph element": Graph()
+                "graph element": Graph(),
+                "start graphing button": Button((49, 49), "assets/formatting/game/start_graphing_button.json")
             })
         }
 
@@ -30,7 +34,7 @@ class Game():
     
     def run(self):
         while self.running:
-            dt = self.clock.tick(self.FPS)/1000
+            dt = self.clock.tick(self.FPS)/1000 + 0.001  # to avoid 'division by 0' error
 
             pg.display.set_caption(str(round(1/dt)))
 
@@ -41,8 +45,8 @@ class Game():
         pg.quit()
 
     def render(self, dt):
-        self.window.fill((240, 240, 240))
-        self.screen.fill((240, 240, 240))
+        self.window.fill(PALLETTE["white"])
+        self.screen.fill(PALLETTE["white"])
 
         for element in self.current_scene.elements:
             self.current_scene.elements[element].render(self.screen)
@@ -62,7 +66,6 @@ class Game():
         for event in events:
             if event.type == pg.QUIT:
                 self.running = False
-
 
 Game().run()
 

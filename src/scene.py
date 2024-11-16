@@ -14,10 +14,5 @@ class Scene():
         self.elements = elements
     
     def update(self, input_data: InputData):
-        responses = []
-
         for element in self.elements:
-            responses.append(self.elements[element].update(input_data, self))  # update every element
-        
-        for response in responses:
-            pass  # later
+            self.elements[element].update(input_data, self)  # update every element
