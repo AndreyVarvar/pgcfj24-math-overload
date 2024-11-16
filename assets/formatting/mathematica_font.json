@@ -1,0 +1,10 @@
+{
+    "path": "assets/sprites/mathematica-font.png",
+    "characters": "abcdefghijklmnopqrstuvwxyz0123456789()*-+=/",
+    "special": ["not casesensitive", "no space"],
+    "character_rect": {
+        "default": [0, 0, 4, 5]
+    },
+    "spacing": 1,
+    "unknown_character": [0, 0, 4, 5]
+}
