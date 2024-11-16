@@ -30,7 +30,9 @@ class Game():
     
     def run(self):
         while self.running:
-            dt = self.clock.tick(self.FPS)
+            dt = self.clock.tick(self.FPS)/1000
+
+            pg.display.set_caption(str(round(1/dt)))
 
             self.handle_events()
             self.update()
