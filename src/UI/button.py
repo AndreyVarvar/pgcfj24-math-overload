@@ -4,7 +4,7 @@ from src.scene import Scene
 import pygame as pg
 
 
-class Button(UIElement):
+class ButtonElement(UIElement):
     def __init__(self, position, format_json_path):
         super().__init__(position, format_json_path)
 
@@ -14,7 +14,7 @@ class Button(UIElement):
         self.was_clicked = False  # clicked and released
         self.disabled = False  # block the mouse from being used
     
-    def render(self, destination):
+    def render(self, destination, dt):
         self.sprite_surface.fill((0, 0, 0, 0))  # clear the sprite
 
         for element in self.elements:
@@ -39,6 +39,7 @@ class Button(UIElement):
         
             if input_data.mouse_pressed[0] and self.hitbox.collidepoint(input_data.click_origin):
                 self.is_clicked = True
+                input_data.reset_mouse_event()
             else:
                 self.is_clicked = False
         else:

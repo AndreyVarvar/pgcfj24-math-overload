@@ -3,9 +3,11 @@ import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
 from src.graph import Graph
+from src.font import Font
 from src.constants import *
 
-from src.UI.button import Button
+from src.UI.button import ButtonElement
+from src.UI.input_box import InputBoxElement
 
 pg.init()
 
@@ -22,10 +24,13 @@ class Game():
         self.clock = pg.time.Clock()
         self.FPS = 64*64
 
+        self.font = Font("assets/formatting/mathematica_font.json")
+
         self.scenes = {
             "game": Scene({
                 "graph element": Graph(),
-                "start graphing button": Button((49, 49), "assets/formatting/game/start_graphing_button.json")
+                "start graphing button": ButtonElement((49, 49), "assets/formatting/game/start_graphing_button.json"),
+                "graph input box": InputBoxElement((0, 0), "assets/formatting/game/formula_input_box.json", self.font)
             })
         }
 
@@ -49,7 +54,7 @@ class Game():
         self.screen.fill(PALLETTE["white"])
 
         for element in self.current_scene.elements:
-            self.current_scene.elements[element].render(self.screen)
+            self.current_scene.elements[element].render(self.screen, dt)
 
 
         self.window.blit(pg.transform.scale_by(self.screen, 10), (0, 0))

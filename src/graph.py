@@ -1,4 +1,3 @@
-from pkg_resources import UnknownExtra
 import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
@@ -28,7 +27,6 @@ class Graph():
         if self.update_graph:
             self.update_graph = False
             self.graphing_progress = 0
-            self.formula = ["y = abs(sin(x))", "y=E**x"][len(self.points)>0]
             self.formula: str = self._process_formula('x', to_swap='x')  # here i use the function to just bring everything to the left hand side
             self.formula = sympy.parsing.sympy_parser.parse_expr(self.formula)
 
@@ -63,11 +61,12 @@ class Graph():
         except TypeError as e:
             self.graphing_progress += 1
             self.error_message = "Something went wrong"
-            print("Something went wrong: ", e)
+            print("Computational error: ", e)
 
-        
+        # check for graph updates
         if parent_scene.elements["start graphing button"].was_clicked:
             self.update_graph = True
+            self.formula = parent_scene.elements["graph input box"].text.text
 
     
     def _solve_expr(self, expr, unknown):
@@ -112,7 +111,7 @@ class Graph():
 
         return formula
 
-    def render(self, destination: pg.Surface):
+    def render(self, destination: pg.Surface, dt):
         # draw cells
         for x in range(0, 64, 4):
             pg.draw.line(destination, PALLETTE["light-brown"], (x, 0), (x, 64))

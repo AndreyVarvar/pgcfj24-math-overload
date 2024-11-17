@@ -14,41 +14,52 @@ class UIElement():
         self.hitbox: pg.Rect
     
     def load_formatting(self, formatting_file_path) -> dict:
+        
         with open(formatting_file_path, 'r') as file:
             data = json.load(file)
         
         return data
         
     def apply_formatting(self, formatting_file_path):
+        if formatting_file_path is None:
+            return {}
+        
         formatting = self.load_formatting(formatting_file_path)
 
         self.sprite_surface = pg.Surface(formatting["size"], pg.SRCALPHA)
 
-        _from = formatting["hitbox"]["from"] 
-        _to = formatting["hitbox"]["to"]
-        self.hitbox = pg.Rect(_from[0]+self.position[0], _from[1]+self.position[1], _to[0]-_from[0]+1, _to[1]-_from[1]+1)
-
         textures = {}
-        for texture in formatting["textures"]:
-            textures.update({texture: pg.image.load(formatting['textures'][texture]).convert_alpha()})
-        
-        formatting.pop("textures")
-    
         elements = {}
-        for element in formatting["elements"]:
-            _from = formatting["elements"][element]["uv"]["from"]
-            _to =  formatting["elements"][element]["uv"]["to"]
-            _to = (_to[0] - _from[0]+1, _to[1] - _from[1]+1)
 
-            subsurface_rect =  (_from, _to)
+        for criteria in formatting:
+            if criteria == "hitbox":
+                _from = formatting[criteria]["from"] 
+                _to = formatting[criteria]["to"]
+                self.hitbox = pg.Rect(_from[0]+self.position[0], _from[1]+self.position[1], _to[0]-_from[0]+1, _to[1]-_from[1]+1)
 
-            texture = textures[formatting["elements"][element]["texture"]].subsurface(subsurface_rect)
-            offset = formatting["elements"][element]["at"]
-            elements.update({element: (texture, offset)})
+            elif criteria == "textures":
+                for texture in formatting["textures"]:
+                    textures.update({texture: pg.image.load(formatting['textures'][texture]).convert_alpha()})
+            
+            elif criteria == "elements":
+                for element in formatting["elements"]:
+                    if element[0] == ".":
+                        elements.update({element: formatting["elements"][element]})
+                    else:
+                        _from = formatting["elements"][element]["uv"]["from"]
+                        _to =  formatting["elements"][element]["uv"]["to"]
+                        _to = (_to[0] - _from[0]+1, _to[1] - _from[1]+1)
+
+                        subsurface_rect =  (_from, _to)
+
+                        texture = textures[formatting["elements"][element]["texture"]].subsurface(subsurface_rect)
+                        offset = formatting["elements"][element]["at"]
+                        elements.update({element: (texture, offset)})
+    
 
         return elements
     
-    def render(self, destinatio: pg.Surface):
+    def render(self, destination: pg.Surface):
         pass
 
     def update(self, input_data: InputData, parent_scene: Scene):
