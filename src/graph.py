@@ -2,7 +2,7 @@ import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
 import sympy
-from src.utils import bound, multi_split
+from src.utils import bound
 from src.constants import *
 
 
@@ -16,13 +16,15 @@ class Graph():
 
         self.error_message = ""
 
+        self.ignore_next_update = False
+
         self.total_drawing_progress = 128
         self.x_drawing_progress = self.total_drawing_progress//2
         self.y_drawing_progress = self.total_drawing_progress
 
         self.graph_width = 64
     
-    def update(self, input_data: InputData, parent_scene: Scene):
+    def update(self, input_data: InputData, parent_scene: Scene, dt):
         # self.formula = graph_scene.elements["text input"]
         if self.update_graph:
             self.update_graph = False
@@ -65,15 +67,21 @@ class Graph():
         except TypeError as e:
             self.graphing_progress += 1
             self.error_message = "Something went wrong"
-            print("Computational error: ", e)
+            print("Computational error of '", formula, "': ", e)
 
         # check for graph updates
         if parent_scene.elements["start graphing button"].was_clicked or input_data.key_pressed == 13:  # enter key
             input_data.reset_key_event()
-            self.valid, self.formula = self.import_new_formula(parent_scene.elements["graph input box"].text.text)
+            parent_scene.elements["start graphing button"].interpolate = True
+            parent_scene.elements["graph input box"].interpolate = True
 
-            if self.valid:
+            self.valid, formula = self.import_new_formula(parent_scene.elements["graph input box"].text.text)
+
+            if self.valid and not self.ignore_next_update:
+                self.formula = formula
                 self.update_graph = True
+            
+            self.ignore_next_update = not self.ignore_next_update
 
     
     def _solve_expr(self, expr, unknown):
@@ -175,6 +183,9 @@ class Graph():
 
         # replace all lowercase 'e' with eulers constant
         formula = formula.replace('e', 'E')
+        for i in range(1, len(formula)-2):
+            if formula[i] == "E" and formula[i-1] in "sc":
+                formula = formula[:i] + formula[i].lower() + formula[i+1:]
         # replace '^' with '**'
         formula = formula.replace('^', '**')
 

@@ -44,7 +44,7 @@ class Game():
             pg.display.set_caption(str(round(1/dt)))
 
             self.handle_events()
-            self.update()
+            self.update(dt)
             self.render(dt)
 
         pg.quit()
@@ -61,8 +61,8 @@ class Game():
 
         pg.display.update()
     
-    def update(self):
-        self.current_scene.update(self.input_data)
+    def update(self, dt):
+        self.current_scene.update(self.input_data, dt)
 
     def handle_events(self):
         events = pg.event.get()

@@ -13,6 +13,6 @@ class Scene():
         self.new_scene_name = ""
         self.elements = elements
     
-    def update(self, input_data: InputData):
+    def update(self, input_data: InputData, dt):
         for element in self.elements:
-            self.elements[element].update(input_data, self)  # update every element
+            self.elements[element].update(input_data, self, dt)  # update every element
