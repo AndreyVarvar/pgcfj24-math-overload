@@ -2,7 +2,7 @@ import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
 import sympy
-from src.utils import bound
+from src.utils import bound, multi_split
 from src.constants import *
 
 
@@ -28,7 +28,11 @@ class Graph():
             self.update_graph = False
             self.graphing_progress = 0
             self.formula: str = self._process_formula('x', to_swap='x')  # here i use the function to just bring everything to the left hand side
-            self.formula = sympy.parsing.sympy_parser.parse_expr(self.formula)
+            try:
+                self.formula = sympy.parsing.sympy_parser.parse_expr(self.formula)
+            except Exception as e:
+                print("Error parsing formula: ", e)
+                self.graphing_progress = 128
 
         try:
             if self.graphing_progress < self.total_drawing_progress:
@@ -64,9 +68,12 @@ class Graph():
             print("Computational error: ", e)
 
         # check for graph updates
-        if parent_scene.elements["start graphing button"].was_clicked:
-            self.update_graph = True
-            self.formula = parent_scene.elements["graph input box"].text.text
+        if parent_scene.elements["start graphing button"].was_clicked or input_data.key_pressed == 13:  # enter key
+            input_data.reset_key_event()
+            self.valid, self.formula = self.import_new_formula(parent_scene.elements["graph input box"].text.text)
+
+            if self.valid:
+                self.update_graph = True
 
     
     def _solve_expr(self, expr, unknown):
@@ -143,3 +150,46 @@ class Graph():
                 points_to_remove.add(p)
         
         self.points = self.points - points_to_remove
+    
+    def import_new_formula(self, formula: str):
+        # check validity
+        valid = True
+        if "=" not in formula:
+            return False, formula
+        
+        lhs, rhs = formula.split("=")
+
+        if len(rhs) == 0 or len(lhs) == 0:
+            valid = False
+
+        # insert '*' where there is implied multiplication
+        lhs = self._insert_in_implied_multiplication(lhs)
+        rhs = self._insert_in_implied_multiplication(rhs)
+
+        for i in range(len(rhs)-1, 0, -1):
+            if rhs[i-1] == ")" and rhs[i] == "(":
+                rhs = rhs[i:] + "*" + rhs[:i]
+
+        
+        formula = lhs + "=" + rhs
+
+        # replace all lowercase 'e' with eulers constant
+        formula = formula.replace('e', 'E')
+        # replace '^' with '**'
+        formula = formula.replace('^', '**')
+
+        return valid, formula
+
+    def _insert_in_implied_multiplication(self, side):
+        for c in 'xy':
+            side = side.split(c)
+            for i, s in enumerate(side):
+                if s and (s[-1].isdigit() or s[-1] == ')') and i != (len(side)-1):
+                    side[i] += '*'
+                elif s and s[0] == '(' and i != 0:
+                    side[i] = "*" + side[i]
+            
+            side = c.join(side)
+            
+        return side
+    

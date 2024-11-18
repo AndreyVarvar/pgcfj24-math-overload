@@ -5,6 +5,7 @@ from src.scene import Scene
 from src.UI.text import TextElement
 import pygame as pg
 from src.constants import PALLETTE
+from src.utils import Timer
 
 
 class InputBoxElement(UIElement):
@@ -15,9 +16,8 @@ class InputBoxElement(UIElement):
         self.focused = False
         self.insert_position = 0
 
+        self.blinker = Timer([0.5], True)
         self.blink = True
-        self.blink_time = 0.5  # seconds
-        self.since_last_blink = 0  # seconds
     
     def update(self, input_data: InputData, parent_scene: Scene):
         if self.hitbox.collidepoint(input_data.mouse_pos):
@@ -29,7 +29,6 @@ class InputBoxElement(UIElement):
                 self.insert_position = len(self.text.text)
             else:
                 self.focused = False
-                self.since_last_blink = 0
                 self.blink = True
         
         if self.focused:
@@ -46,6 +45,7 @@ class InputBoxElement(UIElement):
 
                 elif input_data.key_pressed == 1073741903:  # right arrow key
                     self.insert_position += (1 if self.insert_position < len(self.text.text) else 0)
+
                 elif input_data.key_unicode_pressed in self.text.font.chars:
                     if len(self.text.text) < self.elements[".input_max_len"]:
                         self.text.text = self.text.text[:self.insert_position] + input_data.key_unicode_pressed + self.text.text[self.insert_position:]
@@ -63,13 +63,11 @@ class InputBoxElement(UIElement):
             start_pos = text_size[0] + self.elements[".input_text_pos"][0] - 1, self.elements[".input_text_pos"][1]
             end_pos = text_size[0] + self.elements[".input_text_pos"][0] - 1, text_size[1] + self.elements[".input_text_pos"][1]
 
+            if self.blinker.tick(dt):
+                self.blink = not self.blink
+
             if self.blink:
                 pg.draw.line(self.sprite_surface, PALLETTE["white"], start_pos, end_pos)
-
-            self.since_last_blink += dt
-            if self.since_last_blink > self.blink_time:
-                self.since_last_blink = 0
-                self.blink = not self.blink
         
         destination.blit(self.sprite_surface, self.position)
         self.text.render(destination, dt)

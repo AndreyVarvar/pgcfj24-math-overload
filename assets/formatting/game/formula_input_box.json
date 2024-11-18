@@ -11,6 +11,6 @@
             "texture": "#1"
         },
         ".input_text_pos": [5, 5],
-        ".input_max_len": 11
+        ".input_max_len": 13
     }
 }
