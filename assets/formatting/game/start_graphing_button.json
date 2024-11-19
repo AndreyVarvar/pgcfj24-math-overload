@@ -1,6 +1,4 @@
 {
-    "size": [15, 15],
-    "hitbox": {"from": [4, 4], "to": [10, 10]},
     "textures": {
         "#1": "assets/sprites/UI/game/graph_start_button.png"
     },
@@ -32,7 +30,31 @@
         }
     },
     "info": {
-        "interpolation_dest": [64, 64],
-        "interpolate_time": 0.5
+        "position": {
+            "type": "vector2",
+            "value": [45, 45]
+        },
+        "interpolation_points": {
+            "type": "list vector2",
+            "values": [[45, 45], [64, 64]]
+        },
+        "interpolation_time": {
+            "type": "preserve",
+            "value": 0.5,
+            "#": "'preserve' is used as a way to indicate, that whatever information this block holds should be just copied and not processed"
+        },
+        "surface": {
+            "type": "surface",
+            "size": [15, 15],
+            "flags": ["alpha"]
+        },
+        "hitbox": {
+            "type": "rect tlbr",
+            "special": ["relative"],
+            "#1": "'relative' means that it's like an offset of the objects position. If hitbox is [4,4] and position is [10,10], then hitbox becomes [14,14]",
+            "from": [4, 4], 
+            "to": [10, 10],
+            "#2": "'tlbr' refers to 'top-left bottom-right' annotation, meaning we specify top-left position(from) and then bottom-right(to)"
+        }
     }
 }

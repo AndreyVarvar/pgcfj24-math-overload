@@ -29,8 +29,8 @@ class Game():
         self.scenes = {
             "game": Scene({
                 "graph element": Graph(),
-                "start graphing button": ButtonElement((49, 49), "assets/formatting/game/start_graphing_button.json"),
-                "graph input box": InputBoxElement((0, 0), "assets/formatting/game/formula_input_box.json", self.font)
+                "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
+                "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font)
             })
         }
 

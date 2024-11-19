@@ -72,8 +72,9 @@ class Graph():
         # check for graph updates
         if parent_scene.elements["start graphing button"].was_clicked or input_data.key_pressed == 13:  # enter key
             input_data.reset_key_event()
-            parent_scene.elements["start graphing button"].interpolate = True
-            parent_scene.elements["graph input box"].interpolate = True
+            # parent_scene.elements["start graphing button"].interpolate = True
+            # parent_scene.elements["graph input box"].interpolate = True
+            # parent_scene.elements["graph input box"].locked = not parent_scene.elements["graph input box"].locked
 
             self.valid, formula = self.import_new_formula(parent_scene.elements["graph input box"].text.text)
 

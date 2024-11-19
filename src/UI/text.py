@@ -8,7 +8,8 @@ import pygame as pg
 
 class TextElement(UIElement):
     def __init__(self, position, text: str, font: Font):
-        super().__init__(position, None)
+        super().__init__(None)
+        self.position = position
         self.text_image = font.render(text)
         self.text = text
         self.font = font
