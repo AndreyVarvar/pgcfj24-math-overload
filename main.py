@@ -8,6 +8,7 @@ from src.constants import *
 
 from src.UI.button import ButtonElement
 from src.UI.input_box import InputBoxElement
+from src.UI.panel import Panel
 
 pg.init()
 
@@ -30,7 +31,8 @@ class Game():
             "game": Scene({
                 "graph element": Graph(),
                 "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
-                "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font)
+                "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
+                "level description": Panel("assets/formatting/game/description_panel.json", self.font)
             })
         }
 

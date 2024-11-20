@@ -49,6 +49,6 @@ class ButtonElement(UIElement):
         self.was_clicked = False
         if self.get_hitbox().collidepoint(input_data.mouse_pos) and not self.disabled:
             if input_data.just_released:
-                if self.get_hitbox().collidepoint(input_data.click_origin) and self.information["uielement"]["hitbox"].collidepoint(input_data.release_pos):
+                if self.get_hitbox().collidepoint(input_data.click_origin) and self.get_hitbox().collidepoint(input_data.release_pos):
                     self.was_clicked = True
 

@@ -11,14 +11,13 @@ class Graph():
         self.points = set()
         self.formula = "y = cos(x)"
 
-        self.interpolate = True
+        self.interpolate = False
+        self.ignore_update_to_remove_this_annoying_update_every_time = False
 
         self.update_graph = False
         self.graphing_progress = 128
 
         self.error_message = ""
-
-        self.ignore_next_update = False
 
         self.total_drawing_progress = 128
         self.x_drawing_progress = self.total_drawing_progress//2
@@ -71,22 +70,30 @@ class Graph():
             self.error_message = "Something went wrong"
             print("Computational error of '", formula, "': ", e)
 
-        if not self.interpolate:
-            self.interpolate = parent_scene.elements["start graphing button"].interpolate(dt) 
-            self.interpolate = parent_scene.elements["graph input box"].interpolate(dt) and self.interpolate
+        if self.interpolate:
+            done1 = parent_scene.elements["start graphing button"].interpolate(dt) 
+            done2 = parent_scene.elements["graph input box"].interpolate(dt)
+            done3 = parent_scene.elements["level description"].interpolate(dt)
+            self.interpolate = done1 or done2 or done3
 
         # check for graph updates
-        if parent_scene.elements["start graphing button"].was_clicked or input_data.key_pressed == 13:  # enter key
-            self.interpolate = False
+        if input_data.key_pressed == 27:
+            input_data.reset_key_event()
+            self.interpolate = True
+            self.ignore_update_to_remove_this_annoying_update_every_time = not self.ignore_update_to_remove_this_annoying_update_every_time
+
+        if (parent_scene.elements["start graphing button"].was_clicked or input_data.key_pressed == 13) and not self.interpolate:  # 13 - enter key
+            self.interpolate = True
             input_data.reset_key_event()
 
             self.valid, formula = self.import_new_formula(parent_scene.elements["graph input box"].text.text)
 
-            if self.valid and not self.ignore_next_update:
+            if self.valid and not self.ignore_update_to_remove_this_annoying_update_every_time:
                 self.formula = formula
                 self.update_graph = True
-            
-            self.ignore_next_update = not self.ignore_next_update
+                self.ignore_update_to_remove_this_annoying_update_every_time = True
+            else:
+                self.ignore_update_to_remove_this_annoying_update_every_time = False
 
     
     def _solve_expr(self, expr, unknown):

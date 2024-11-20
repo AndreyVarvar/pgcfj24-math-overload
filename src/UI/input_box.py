@@ -1,4 +1,3 @@
-from readline import insert_text
 from src.ui_element import UIElement
 from src.input_data import InputData
 from src.scene import Scene
@@ -75,9 +74,6 @@ class InputBoxElement(UIElement):
         destination.blit(self.sprite_surface, self.information["uielement"]["position"])
     
     def load_element_specific_criteria(self, information, formatting, criteria):
-        if criteria not in information:
-            information[criteria] = {}
-
         if criteria == "input_box":
             information[criteria]["input_text_pos"] = pg.Vector2(formatting[criteria]["input_text_pos"])
             information[criteria]["max_len"] = formatting[criteria]["max_len"]

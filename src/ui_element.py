@@ -61,8 +61,14 @@ class UIElement():
                 information["interpolation"]["time"] = formatting["interpolation"]["time"]
                 information["interpolation"]["time_lapsed"] = 0
             
-            elif not self.load_element_specific_criteria(information, formatting, criteria):  # criteria not knows by the element as well
-                print("ERR: Unknown criteria:", criteria)
+            else:
+                if criteria not in information:
+                    information[criteria] = {}
+
+                known = self.load_element_specific_criteria(information, formatting, criteria)
+                
+                if not known:
+                    print("ERR: Unknown criteria:", criteria)
     
 
         return information
@@ -98,8 +104,8 @@ class UIElement():
             if self.information["interpolation"]["current"] >= len(self.information["interpolation"]["points"]):
                 self.information["interpolation"]["current"] = 0
             self.information["uielement"]["position"] = self.information["interpolation"]["points"][self.information["interpolation"]["current"]].copy()
-            return True
+            return False
         else:
             self.information["uielement"]["position"] = pg.math.Vector2.smoothstep(self.information["interpolation"]["points"][self.information["interpolation"]["current"]], self.information["interpolation"]["points"][next_index], ratio)
-            return False
+            return True
 
