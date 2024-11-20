@@ -11,7 +11,7 @@ from src.utils import Timer
 class InputBoxElement(UIElement):
     def __init__(self, formatting_file_path, font):
         super().__init__(formatting_file_path)
-        self.text = TextElement(self.information["info"]["input_text_pos"], "", font)
+        self.text = TextElement(self.information["input_box"]["input_text_pos"], "", font)
 
         self.focused = False
         self.insert_position = 0
@@ -22,11 +22,11 @@ class InputBoxElement(UIElement):
         self.locked = False
     
     def update_element(self, input_data: InputData, parent_scene: Scene):
-        if self.information["info"]["hitbox"].collidepoint(input_data.mouse_pos):
+        if self.get_hitbox().collidepoint(input_data.mouse_pos):
             input_data.add_to_cursor_queue(pg.SYSTEM_CURSOR_HAND)
 
         if input_data.just_released:
-            if self.information["info"]["hitbox"].collidepoint(input_data.click_origin) and self.information["info"]["hitbox"].collidepoint(input_data.release_pos):
+            if self.get_hitbox().collidepoint(input_data.click_origin) and self.get_hitbox().collidepoint(input_data.release_pos):
                 self.focused = True
                 self.insert_position = len(self.text.text)
             else:
@@ -39,7 +39,7 @@ class InputBoxElement(UIElement):
                     if len(self.text.text) > 0:
                         self.text.text = self.text.text[:self.insert_position-1] + self.text.text[self.insert_position:]
                         input_data.reset_key_event()
-                        self.text = TextElement(self.information["info"]["input_text_pos"], self.text.text, self.text.font)
+                        self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font)
                         self.insert_position -= 1
 
                 elif input_data.key_pressed == 1073741904:  # left arrow key
@@ -49,9 +49,9 @@ class InputBoxElement(UIElement):
                     self.insert_position += (1 if self.insert_position < len(self.text.text) else 0)
 
                 elif input_data.key_unicode_pressed in self.text.font.chars:
-                    if len(self.text.text) < self.information["info"]["input_max_len"]:
+                    if len(self.text.text) < self.information["input_box"]["max_len"]:
                         self.text.text = self.text.text[:self.insert_position] + input_data.key_unicode_pressed + self.text.text[self.insert_position:]
-                        self.text = TextElement(self.information["info"]["input_text_pos"], self.text.text, self.text.font)
+                        self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font)
                         self.insert_position += len(input_data.key_unicode_pressed)
                         input_data.reset_key_event()
 
@@ -62,8 +62,8 @@ class InputBoxElement(UIElement):
         
         if self.focused:
             text_size = self.text.font.get_surf_length(self.text.text[:self.insert_position])
-            start_pos = text_size[0] + self.information["info"]["input_text_pos"][0] - 1, self.information["info"]["input_text_pos"][1]
-            end_pos = text_size[0] + self.information["info"]["input_text_pos"][0] - 1, text_size[1] + self.information["info"]["input_text_pos"][1]
+            start_pos = text_size[0] + self.information["input_box"]["input_text_pos"][0] - 1, self.information["input_box"]["input_text_pos"][1]
+            end_pos = text_size[0] + self.information["input_box"]["input_text_pos"][0] - 1, text_size[1] + self.information["input_box"]["input_text_pos"][1]
 
             if self.blinker.tick(dt):
                 self.blink = not self.blink
@@ -72,5 +72,17 @@ class InputBoxElement(UIElement):
                 pg.draw.line(self.sprite_surface, PALLETTE["white"], start_pos, end_pos)
         
         self.text.render(self.sprite_surface, dt)
-        destination.blit(self.sprite_surface, self.information["info"]["position"])
+        destination.blit(self.sprite_surface, self.information["uielement"]["position"])
+    
+    def load_element_specific_criteria(self, information, formatting, criteria):
+        if criteria not in information:
+            information[criteria] = {}
+
+        if criteria == "input_box":
+            information[criteria]["input_text_pos"] = pg.Vector2(formatting[criteria]["input_text_pos"])
+            information[criteria]["max_len"] = formatting[criteria]["max_len"]
+        else:
+            return False  # unknown criteria
+        
+        return True  # aha, criteria known!
 

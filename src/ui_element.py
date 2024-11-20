@@ -45,50 +45,24 @@ class UIElement():
                     offset = formatting["elements"][element]["at"]
                     information["elements"].update({element: (texture, offset)})
 
+            elif criteria == "uielement":
+                information["uielement"] = {}
+                information["uielement"]["position"] = pg.Vector2(formatting[criteria]["position"])
+                self.sprite_surface = pg.Surface(formatting[criteria]["size"], pg.SRCALPHA)
 
-            elif criteria == "info":
-                information["info"] = {}
-                for info in formatting["info"]:
-                    if formatting["info"][info]["type"] == "preserve":
-                        information["info"].update({info: formatting["info"][info]["value"]})
-
-                    elif formatting["info"][info]["type"] == "vector2":
-                        information["info"].update({info: pg.Vector2(formatting["info"][info]["value"])})
-
-                    elif formatting["info"][info]["type"] == "rect tlbr":
-                        _from = formatting["info"][info]["from"]
-                        _to = formatting["info"][info]["to"]
-
-                        if "relative" in formatting["info"][info]["special"]:
-                            _from[0] += formatting["info"]["position"]["value"][0]
-                            _from[1] += formatting["info"]["position"]["value"][1]
-                            _to[0] += formatting["info"]["position"]["value"][0]
-                            _to[1] += formatting["info"]["position"]["value"][1]
-
-                        rect = pg.Rect(_from[0], _from[1], _to[0]-_from[0]+1, _to[1]-_from[1]+1)
-                        information["info"].update({info: rect})
-
-                    elif formatting["info"][info]["type"] == "list vector2":
-                        information["info"][info] = []
-                        for value in formatting["info"][info]["values"]:
-                            information["info"][info].append(pg.Vector2(value))
-                    
-                    elif formatting["info"][info]["type"] == "surface":
-                        information["info"][info] = {}
-                        information["info"][info]["size"] = pg.Vector2(formatting["info"][info]["size"])
-                        information["info"][info]["flags"] = []
-
-                        for flag in formatting["info"][info]["flags"]:
-                            information["info"][info]["flags"].append(get_flag(flag))
-
-                        self.sprite_surface = pg.Surface(information["info"][info]["size"], get_bitwise_or_of_list(information["info"][info]["flags"]))
-
-                    else:
-                        print(f"FORMATTING ERROR: unknown type '{formatting['info'][info]['type']}.'")
-            else:
-                information[criteria] = {}
-                for entry in formatting[criteria]:
-                    information[criteria].update({entry: formatting[criteria][entry]})
+                _from = formatting[criteria]["hitbox"]["from"]
+                _to =  formatting[criteria]["hitbox"]["to"]
+                information["uielement"]["hitbox"] = pg.Rect(_from[0], _from[1], _to[0] - _from[0]+1, _to[1] - _from[1]+1)
+            
+            elif criteria == "interpolation":
+                information["interpolation"] = {}
+                information["interpolation"]["points"] = [pg.Vector2(point) for point in formatting["interpolation"]["points"]]
+                information["interpolation"]["current"] = formatting["interpolation"]["current"]
+                information["interpolation"]["time"] = formatting["interpolation"]["time"]
+                information["interpolation"]["time_lapsed"] = 0
+            
+            elif not self.load_element_specific_criteria(information, formatting, criteria):  # criteria not knows by the element as well
+                print("ERR: Unknown criteria:", criteria)
     
 
         return information
@@ -97,20 +71,35 @@ class UIElement():
         pass
 
     def update(self, input_data: InputData, parent_scene: Scene, dt):
-        self.information["info"]["hitbox"].topleft = self.information["info"]["position"]
         self.update_element(input_data, parent_scene)
 
     def update_element(self, input_data: InputData, parent_scene: Scene):
         pass
 
+    def load_element_specific_criteria(self, information, formatting, criteria) -> bool:
+        pass
 
+    def get_hitbox(self):
+        hitbox = self.information["uielement"]["hitbox"].copy()
+        hitbox = hitbox.move(self.information["uielement"]["position"])
+        return hitbox
+    
+    def interpolate(self, dt):
+        next_index = self.information["interpolation"]["current"] + 1
+        if next_index >= len(self.information["interpolation"]["points"]):
+            next_index = 0
 
-def get_flag(s: str):
-    if s == "alpha":
-        return pg.SRCALPHA
+        self.information["interpolation"]["time_lapsed"] += dt
+        ratio = self.information["interpolation"]["time_lapsed"] / self.information["interpolation"]["time"]
 
-def get_bitwise_or_of_list(l: list):
-    b = l[0]
-    for i in l[1:]:
-        b = b | i
-    return b
+        if ratio >= 1:
+            self.information["interpolation"]["current"] += 1
+            self.information["interpolation"]["time_lapsed"] -= self.information["interpolation"]["time"]
+            if self.information["interpolation"]["current"] >= len(self.information["interpolation"]["points"]):
+                self.information["interpolation"]["current"] = 0
+            self.information["uielement"]["position"] = self.information["interpolation"]["points"][self.information["interpolation"]["current"]].copy()
+            return True
+        else:
+            self.information["uielement"]["position"] = pg.math.Vector2.smoothstep(self.information["interpolation"]["points"][self.information["interpolation"]["current"]], self.information["interpolation"]["points"][next_index], ratio)
+            return False
+

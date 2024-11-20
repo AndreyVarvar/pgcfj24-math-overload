@@ -29,36 +29,14 @@
             "texture": "#1"
         }
     },
-    "info": {
-        "position": {
-            "type": "vector2",
-            "value": [49, 49]
-        },
-        "interpolation_points": {
-            "type": "list vector2",
-            "values": [[49, 49], [64, 64]]
-        },
-        "current_interpolation": {
-            "type": "preserve",
-            "value": 0
-        },
-        "interpolation_time": {
-            "type": "preserve",
-            "value": 0.5,
-            "#": "'preserve' is used as a way to indicate, that whatever information this block holds should be just copied and not processed"
-        },
-        "surface": {
-            "type": "surface",
-            "size": [15, 15],
-            "flags": ["alpha"]
-        },
-        "hitbox": {
-            "type": "rect tlbr",
-            "special": ["relative"],
-            "#1": "'relative' means that it's like an offset of the objects position. If hitbox is [4,4] and position is [10,10], then hitbox becomes [14,14]",
-            "from": [4, 4], 
-            "to": [10, 10],
-            "#2": "'tlbr' refers to 'top-left bottom-right' annotation, meaning we specify top-left position(from) and then bottom-right(to)"
-        }
+    "uielement": {
+        "position": [49, 49],
+        "size": [15, 15],
+        "hitbox": {"from": [4, 4], "to": [10, 10]}
+    },
+    "interpolation": {
+        "points": [[49, 49], [64, 64]],
+        "current": 0,
+        "time": 0.5
     }
 }

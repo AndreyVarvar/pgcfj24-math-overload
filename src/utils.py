@@ -41,26 +41,3 @@ class Timer():
         self.current_period = 0
         self.time = 0
 
-
-def interpolate(object, dt):
-    next_index = object.information["info"]["current_interpolation"] + 1
-    if next_index >= len(object.information["info"]["interpolation_points"]):
-        next_index = 0
-
-    dist = object.information["info"]["interpolation_points"][next_index] - object.information["info"]["position"]
-
-    interpolation_speed = dist.length() / object.information["info"]["interpolation_time"]
-
-    distance_traveled = dist * interpolation_speed * dt
-
-    # print(dist, distance_traveled, interpolation_speed, next_index, object.information["info"]["interpolation_points"][next_index])
-
-    if distance_traveled.length() >= (dist.length()-1):
-        object.information["info"]["current_interpolation"] += 1
-        if object.information["info"]["current_interpolation"] >= len(object.information["info"]["interpolation_points"]):
-            object.information["info"]["current_interpolation"] = 0
-        object.information["info"]["position"] = object.information["info"]["interpolation_points"][object.information["info"]["current_interpolation"]].copy()
-        return True
-    else:
-        object.information["info"]["position"] += distance_traveled
-        return False

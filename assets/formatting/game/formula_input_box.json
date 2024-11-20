@@ -9,41 +9,18 @@
             "texture": "#1"
         }
     },
-    "info": {
-        "position": {
-            "type": "vector2",
-            "value": [0, 0]
-        },
-        "input_text_pos": {
-            "type": "vector2",
-            "value": [5, 5]
-        },
-        "input_max_len": {
-            "type": "preserve",
-            "value": 13
-        },
-        "interpolation_points": {
-            "type": "list vector2",
-            "values": [[0, 0], [0, -15]]
-        },
-        "current_interpolation": {
-            "type": "preserve",
-            "value": 0
-        },
-        "interpolation_time": {
-            "type": "preserve",
-            "value": 0.5
-        },
-        "surface": {
-            "type": "surface",
-            "size": [64, 15],
-            "flags": ["alpha"]
-        },
-        "hitbox": {
-            "type": "rect tlbr",
-            "special": ["relative"],
-            "from": [4, 4], 
-            "to": [59, 10]
-        }
+    "uielement": {
+        "position": [0, 0],
+        "size": [64, 15],
+        "hitbox": {"from": [4, 4], "to": [59, 10]}
+    },
+    "input_box": {
+        "input_text_pos": [5, 5],
+        "max_len": 13
+    },
+    "interpolation": {
+        "points": [[0, 0], [0, -15]],
+        "current": 0,
+        "time": 0.5
     }
 }

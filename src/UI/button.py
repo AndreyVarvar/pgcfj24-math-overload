@@ -30,14 +30,14 @@ class ButtonElement(UIElement):
         else:
             self.sprite_surface.blit(self.information["elements"]["!on_button_normal"][0], self.information["elements"]["!on_button_normal"][1])
 
-        destination.blit(self.sprite_surface, self.information["info"]["position"])
+        destination.blit(self.sprite_surface, self.information["uielement"]["position"])
 
     def update_element(self, input_data: InputData, parent_scene: Scene):
-        if self.information["info"]["hitbox"].collidepoint(input_data.mouse_pos):
+        if self.get_hitbox().collidepoint(input_data.mouse_pos):
             self.is_hovered = True
             input_data.add_to_cursor_queue(pg.SYSTEM_CURSOR_HAND)
         
-            if input_data.mouse_pressed[0] and self.information["info"]["hitbox"].collidepoint(input_data.click_origin):
+            if input_data.mouse_pressed[0] and self.get_hitbox().collidepoint(input_data.click_origin):
                 self.is_clicked = True
                 input_data.reset_mouse_event()
             else:
@@ -47,8 +47,8 @@ class ButtonElement(UIElement):
             self.is_clicked = False
 
         self.was_clicked = False
-        if self.information["info"]["hitbox"].collidepoint(input_data.mouse_pos) and not self.disabled:
+        if self.get_hitbox().collidepoint(input_data.mouse_pos) and not self.disabled:
             if input_data.just_released:
-                if self.information["info"]["hitbox"].collidepoint(input_data.click_origin) and self.information["info"]["hitbox"].collidepoint(input_data.release_pos):
+                if self.get_hitbox().collidepoint(input_data.click_origin) and self.information["uielement"]["hitbox"].collidepoint(input_data.release_pos):
                     self.was_clicked = True
 
