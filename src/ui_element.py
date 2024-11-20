@@ -97,17 +97,7 @@ class UIElement():
         pass
 
     def update(self, input_data: InputData, parent_scene: Scene, dt):
-        # if self.can_interpolate and self.interpolate:
-        #     self.interpolation_timer.tick(dt)
-
-        #     self.position[0] = pg.math.smoothstep(self.original_position[0], self.other["info"]["interpolation_dest"][0], self.interpolation_timer.percent)
-        #     self.position[1] = pg.math.smoothstep(self.original_position[1], self.other["info"]["interpolation_dest"][1], self.interpolation_timer.percent)
-
-        #     if self.interpolation_timer.percent >= 1:
-        #         self.other["info"]["interpolation_dest"], self.original_position = self.original_position, self.other["info"]["interpolation_dest"]
-        #         self.interpolate = False
-        #         self.interpolation_timer.reset()
-
+        self.information["info"]["hitbox"].topleft = self.information["info"]["position"]
         self.update_element(input_data, parent_scene)
 
     def update_element(self, input_data: InputData, parent_scene: Scene):

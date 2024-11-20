@@ -32,11 +32,15 @@
     "info": {
         "position": {
             "type": "vector2",
-            "value": [45, 45]
+            "value": [49, 49]
         },
         "interpolation_points": {
             "type": "list vector2",
-            "values": [[45, 45], [64, 64]]
+            "values": [[49, 49], [64, 64]]
+        },
+        "current_interpolation": {
+            "type": "preserve",
+            "value": 0
         },
         "interpolation_time": {
             "type": "preserve",

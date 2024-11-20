@@ -2,7 +2,7 @@ import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
 import sympy
-from src.utils import bound
+from src.utils import bound, interpolate
 from src.constants import *
 
 
@@ -10,6 +10,8 @@ class Graph():
     def __init__(self):
         self.points = set()
         self.formula = "y = cos(x)"
+
+        self.interpolate = True
 
         self.update_graph = False
         self.graphing_progress = 128
@@ -69,8 +71,14 @@ class Graph():
             self.error_message = "Something went wrong"
             print("Computational error of '", formula, "': ", e)
 
+        if not self.interpolate:
+            self.interpolate = interpolate(parent_scene.elements["start graphing button"], dt) 
+            self.interpolate = interpolate(parent_scene.elements["graph input box"], dt) and self.interpolate
+
         # check for graph updates
         if parent_scene.elements["start graphing button"].was_clicked or input_data.key_pressed == 13:  # enter key
+            print("PRESS")
+            self.interpolate = False
             input_data.reset_key_event()
             # parent_scene.elements["start graphing button"].interpolate = True
             # parent_scene.elements["graph input box"].interpolate = True
