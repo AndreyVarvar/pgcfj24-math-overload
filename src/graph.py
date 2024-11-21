@@ -17,6 +17,9 @@ class Graph():
         self.update_graph = False
         self.graphing_progress = 128
 
+        self.channel = pg.mixer.Channel(0)
+        self.graphin = pg.mixer.Sound("assets/sfx/graphin.ogg")
+
         self.error_message = ""
 
         self.total_drawing_progress = 128
@@ -26,7 +29,6 @@ class Graph():
         self.graph_width = 64
     
     def update(self, input_data: InputData, parent_scene: Scene, dt):
-        # self.formula = graph_scene.elements["text input"]
         if self.update_graph:
             self.update_graph = False
             self.graphing_progress = 0
@@ -39,6 +41,8 @@ class Graph():
 
         try:
             if self.graphing_progress < self.total_drawing_progress:
+                if self.channel.get_busy() is False:
+                    self.channel.play(self.graphin)
                 if self.graphing_progress < self.x_drawing_progress: # graphing_progress keeps track of what point (x or y) we are plotting right now
                     x = self.graphing_progress - 32  # here, graphing progress keeps track of what x we are checking right now
 

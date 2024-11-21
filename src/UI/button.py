@@ -13,6 +13,8 @@ class ButtonElement(UIElement):
 
         self.was_clicked = False  # clicked and released
         self.disabled = False  # block the mouse from being used
+
+        self.click_sound = pg.mixer.Sound("assets/sfx/button.ogg")
     
     def render(self, destination, dt):
         self.sprite_surface.fill((0, 0, 0, 0))  # clear the sprite
@@ -37,6 +39,7 @@ class ButtonElement(UIElement):
         
             if input_data.mouse_pressed[0] and self.get_hitbox().collidepoint(input_data.click_origin):
                 self.is_clicked = True
+
                 input_data.reset_mouse_event()
             else:
                 self.is_clicked = False
@@ -49,4 +52,5 @@ class ButtonElement(UIElement):
             if input_data.just_released:
                 if self.get_hitbox().collidepoint(input_data.click_origin) and self.get_hitbox().collidepoint(input_data.release_pos):
                     self.was_clicked = True
+                    self.click_sound.play()
 

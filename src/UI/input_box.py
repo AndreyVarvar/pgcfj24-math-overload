@@ -15,6 +15,9 @@ class InputBoxElement(UIElement):
         self.focused = False
         self.insert_position = 0
 
+        self.sound = pg.mixer.Sound("assets/sfx/keypress.ogg")
+        self.sound2 = pg.mixer.Sound("assets/sfx/keypress2.ogg")
+
         self.blinker = Timer([0.5], True)
         self.blink = True
 
@@ -40,12 +43,15 @@ class InputBoxElement(UIElement):
                         input_data.reset_key_event()
                         self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font)
                         self.insert_position -= 1
+                        self.sound2.play()
 
                 elif input_data.key_pressed == 1073741904:  # left arrow key
                     self.insert_position -= (1 if self.insert_position > 0 else 0)
+                    self.sound2.play()
 
                 elif input_data.key_pressed == 1073741903:  # right arrow key
                     self.insert_position += (1 if self.insert_position < len(self.text.text) else 0)
+                    self.sound2.play()
 
                 elif input_data.key_unicode_pressed in self.text.font.chars:
                     if len(self.text.text) < self.information["input_box"]["max_len"]:
@@ -53,6 +59,7 @@ class InputBoxElement(UIElement):
                         self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font)
                         self.insert_position += len(input_data.key_unicode_pressed)
                         input_data.reset_key_event()
+                        self.sound.play()
 
     def render(self, destination: pg.Surface, dt):
         for element in self.information["elements"]:
