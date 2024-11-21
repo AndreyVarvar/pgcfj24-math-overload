@@ -71,13 +71,15 @@ class Graph():
             print("Computational error of '", formula, "': ", e)
 
         if self.interpolate:
-            done1 = parent_scene.elements["start graphing button"].interpolate(dt) 
-            done2 = parent_scene.elements["graph input box"].interpolate(dt)
-            done3 = parent_scene.elements["level description"].interpolate(dt)
-            self.interpolate = done1 or done2 or done3
+            interpolating = []
+            for element in parent_scene.elements:
+                if parent_scene.elements[element] != self:
+                    interpolating.append(parent_scene.elements[element].interpolate(dt))
+                    
+            self.interpolate = any(interpolating)
 
         # check for graph updates
-        if input_data.key_pressed == 27:
+        if input_data.key_pressed == 27 and not self.interpolate:
             input_data.reset_key_event()
             self.interpolate = True
             self.ignore_update_to_remove_this_annoying_update_every_time = not self.ignore_update_to_remove_this_annoying_update_every_time
@@ -126,7 +128,7 @@ class Graph():
             step = 1 if ((rate_of_change == 0) or (abs(result) > 32)) else (1/abs(rate_of_change))
             
             prev_val = val
-            val += max(min(step, 1), 0.1)
+            val += max(min(step, 1), 0.5)
         return solutions
 
     def _process_formula(self, val, to_swap: str) -> str:  # process the formula expression for SymPy to evaluate

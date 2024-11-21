@@ -17,18 +17,16 @@ class ButtonElement(UIElement):
     def render(self, destination, dt):
         self.sprite_surface.fill((0, 0, 0, 0))  # clear the sprite
 
-        for element in self.information["elements"]:
-            if element[0] != "!":  # '!' means 'special usage'
+        draw_special = True
+        for element in self.sort_elements_by_layer():
+            if element[0] == "!":
+                element_to_draw = ["!on_button_normal", "!on_button_hover", "!on_button_click", "!on_button_disabled"][max([3*self.disabled, 2*self.is_clicked, self.is_hovered, 0])]
+                if draw_special:
+                    draw_special = False
+                    self.sprite_surface.blit(self.information["elements"][element_to_draw][0], self.information["elements"][element_to_draw][1])
+
+            else:
                 self.sprite_surface.blit(self.information["elements"][element][0], self.information["elements"][element][1])
-        
-        if self.disabled:
-            self.sprite_surface.blit(self.information["elements"]["!on_button_disabled"][0], self.information["elements"]["!on_button_disabled"][1])
-        elif self.is_clicked:
-            self.sprite_surface.blit(self.information["elements"]["!on_button_click"][0], self.information["elements"]["!on_button_click"][1])
-        elif self.is_hovered:
-            self.sprite_surface.blit(self.information["elements"]["!on_button_hover"][0], self.information["elements"]["!on_button_hover"][1])
-        else:
-            self.sprite_surface.blit(self.information["elements"]["!on_button_normal"][0], self.information["elements"]["!on_button_normal"][1])
 
         destination.blit(self.sprite_surface, self.information["uielement"]["position"])
 

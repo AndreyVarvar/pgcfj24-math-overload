@@ -32,7 +32,9 @@ class Game():
                 "graph element": Graph(),
                 "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
                 "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
-                "level description": Panel("assets/formatting/game/description_panel.json", self.font)
+                "level description": Panel("assets/formatting/game/description_panel.json", self.font),
+                "next description page button": ButtonElement("assets/formatting/game/next_page_button.json"),
+                "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json")
             })
         }
 

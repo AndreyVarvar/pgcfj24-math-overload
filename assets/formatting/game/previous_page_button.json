@@ -1,0 +1,48 @@
+{
+    "textures": {
+        "#1": "assets/sprites/UI/game/small_button.png"
+    },
+    "elements": {
+        "background": {
+            "uv": {"from": [0, 0], "to": [10, 4]},
+            "at": [0, 0],
+            "texture": "#1"
+        },
+        "arrow": {
+            "uv": {"from": [19, 3], "to": [20, 5]},
+            "at": [4, 0],
+            "texture": "#1",
+            "layer": 1
+        },
+        "!on_button_hover": {
+            "uv": {"from": [18, 0], "to": [24, 2]},
+            "at": [2, 0],
+            "texture": "#1"
+        },
+        "!on_button_click": {
+            "uv": {"from": [11, 3], "to": [17, 5]},
+            "at": [2, 0],
+            "texture": "#1"
+        },
+        "!on_button_normal": {
+            "uv": {"from": [11, 0], "to": [17, 2]},
+            "at": [2, 0],
+            "texture": "#1"
+        },
+        "!on_button_disabled": {
+            "uv": {"from": [11, 3], "to": [17, 5]},
+            "at": [2, 0],
+            "texture": "#1"
+        }
+    },
+    "uielement": {
+        "position": [10, 42],
+        "size": [11, 5],
+        "hitbox": {"from": [2, 0], "to": [8, 2]}
+    },
+    "interpolation": {
+        "points": [[10, 42], [51, -5]],
+        "current": 0,
+        "time": 0.5
+    }
+}

@@ -43,7 +43,10 @@ class UIElement():
 
                     texture = textures[formatting["elements"][element]["texture"]].subsurface(subsurface_rect)
                     offset = formatting["elements"][element]["at"]
-                    information["elements"].update({element: (texture, offset)})
+                
+                    layer = (formatting["elements"][element]["layer"] if "layer" in formatting["elements"][element] else 0)
+
+                    information["elements"].update({element: (texture, offset, layer)})
 
             elif criteria == "uielement":
                 information["uielement"] = {}
@@ -109,3 +112,5 @@ class UIElement():
             self.information["uielement"]["position"] = pg.math.Vector2.smoothstep(self.information["interpolation"]["points"][self.information["interpolation"]["current"]], self.information["interpolation"]["points"][next_index], ratio)
             return True
 
+    def sort_elements_by_layer(self):
+        return {k: v for k, v in sorted(self.information["elements"].items(), key=lambda item: item[1][2])}
