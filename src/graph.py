@@ -4,6 +4,7 @@ from src.scene import Scene
 import sympy
 from src.utils import bound
 from src.constants import *
+from math import *
 
 
 class Graph():
@@ -33,11 +34,6 @@ class Graph():
             self.update_graph = False
             self.graphing_progress = 0
             self.formula: str = self._process_formula('x', to_swap='x')  # here i use the function to just bring everything to the left hand side
-            try:
-                self.formula = sympy.parsing.sympy_parser.parse_expr(self.formula)
-            except Exception as e:
-                print("Error parsing formula: ", e)
-                self.graphing_progress = 128
 
         try:
             if self.graphing_progress < self.total_drawing_progress:
@@ -48,7 +44,7 @@ class Graph():
 
                     self.remove_points_with_specific_x(x+32)
 
-                    formula = self.formula.subs('x', x)  # replaces x with whatever value we are checking right now
+                    formula = self.formula.replace('x', f"({x})")  # replaces x with whatever value we are checking right now
                     solutions = self._solve_expr(formula, 'y')
 
                     for solution in solutions:
@@ -58,7 +54,7 @@ class Graph():
                 elif self.graphing_progress < self.y_drawing_progress:
                     y = self.graphing_progress - 64 - 32 # and here as well, graphing progress keeps track of what y we are checking right now
 
-                    formula = self.formula.subs('y', y)  # replaces y with whatever value we are checking right now
+                    formula = self.formula.replace('y', f"({y})")  # replaces y with whatever value we are checking right now
                     solutions = self._solve_expr(formula, 'x')
 
                     for solution in solutions:
@@ -66,13 +62,15 @@ class Graph():
                                 
                 self.graphing_progress += 1
 
-        except ValueError as e:
+        except ValueError:
             self.graphing_progress += 1
-            print(e)
-        except TypeError as e:
+        except TypeError:
             self.graphing_progress += 1
-            self.error_message = "Something went wrong"
-            print("Computational error of '", formula, "': ", e)
+        except ZeroDivisionError:
+            self.graphing_progress += 1
+        except Exception as e:
+            print("Congrats! you found a new unknown error:", e)
+            self.graphing_progress = self.total_drawing_progress
     
 
     
@@ -80,8 +78,8 @@ class Graph():
         """solves an expression (finds all solutions it can)
 
         Args:
-            expr (sympy expression): sympy expression
-            unknown (str): what value do we want to find (wither 'x' of 'y')
+            expr (str): formula DUH, how do you think I calculate the value on the graph, huh?
+            unknown (str): what value do we want to find (wether 'x' of 'y')
         Returns:
             list: solutons
         """
@@ -89,24 +87,18 @@ class Graph():
         solutions = []
 
         val = -32
-        prev_val = -33
 
         while val < 32:
-            expr1 = expr.subs(unknown, val)
-            if expr1.has(sympy.I) or expr1.has(sympy.zoo):  # make sure there are no complex parts (we are working in the real plane DUH)
-                return []
+            expr1 = expr.replace(unknown, f"({val})")
 
             # we try to find the unknown by continuesly substituting numbers and checking if the expression is equal to 0 (since that's how sympy solver works)
-            result = bound(-33, 33, expr1.evalf())
+            # i use eval, because it is very fast, and there is no point in trying to be safe here, since this will be rin on itch and all the user can do, is... hack themselves ig
+            result = bound(-33, 33, eval(expr1))
 
-            if abs(result) < 0.9:
+            if abs(result) < 0.5:
                 solutions.append(val)
-
-            rate_of_change = (expr1 - expr.subs(unknown, prev_val)).evalf()/(val-prev_val)  # rough differential definition. Math is useful! (i mean, this is a game where math is needed, so who am i kidding)
-            step = 1 if ((rate_of_change == 0) or (abs(result) > 32)) else (1/abs(rate_of_change))
             
-            prev_val = val
-            val += max(min(step, 1), 0.5)
+            val += 0.05
         return solutions
 
     def _process_formula(self, val, to_swap: str) -> str:  # process the formula expression for SymPy to evaluate
@@ -154,7 +146,7 @@ class Graph():
     def import_new_formula(self, formula: str):
         # check validity
         valid = True
-        if "=" not in formula:
+        if len(formula.split("=")) != 2:
             return False, formula
         
         lhs, rhs = formula.split("=")
@@ -173,11 +165,6 @@ class Graph():
         
         formula = lhs + "=" + rhs
 
-        # replace all lowercase 'e' with eulers constant
-        formula = formula.replace('e', 'E')
-        for i in range(1, len(formula)-2):
-            if formula[i] == "E" and formula[i-1] in "sc":
-                formula = formula[:i] + formula[i].lower() + formula[i+1:]
         # replace '^' with '**'
         formula = formula.replace('^', '**')
 

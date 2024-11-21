@@ -1,0 +1,42 @@
+{
+    "textures": {
+        "#1": "assets/sprites/UI/game/hint_button.png"
+    },
+    "elements": {
+        "background": {
+            "uv": {"from": [0, 0], "to": [17, 8]},
+            "at": [0, 0],
+            "texture": "#1"
+        },
+        "!on_button_hover": {
+            "uv": {"from": [32, 0], "to": [45, 4]},
+            "at": [2, 0],
+            "texture": "#1"
+        },
+        "!on_button_click": {
+            "uv": {"from": [18, 5], "to": [31, 9]},
+            "at": [2, 0],
+            "texture": "#1"
+        },
+        "!on_button_normal": {
+            "uv": {"from": [18, 0], "to": [31, 4]},
+            "at": [2, 0],
+            "texture": "#1"
+        },
+        "!on_button_disabled": {
+            "uv": {"from": [18, 5], "to": [31, 9]},
+            "at": [2, 0],
+            "texture": "#1"
+        }
+    },
+    "uielement": {
+        "position": [23, 42],
+        "size": [18, 9],
+        "hitbox": {"from": [2, 0], "to": [15, 4]}
+    },
+    "interpolation": {
+        "points": [[23, 42], [23, -40]],
+        "current": 0,
+        "time": 0.5
+    }
+}

@@ -40,4 +40,3 @@ class Timer():
     def reset(self):
         self.current_period = 0
         self.time = 0
-

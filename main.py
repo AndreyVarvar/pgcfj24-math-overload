@@ -37,6 +37,7 @@ class Game():
                 "level description": Panel("assets/formatting/game/description_panel.json", self.font),
                 "next description page button": ButtonElement("assets/formatting/game/next_page_button.json"),
                 "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json"),
+                "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
                 "level manager": LevelManager("assets/levels")
             })
         }
