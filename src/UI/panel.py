@@ -24,4 +24,8 @@ class Panel(UIElement):
             return False  # unknown criteria
         
         return True  # aha, criteria known!
+    
+    def update_text(self, new_text):
+        self.text = TextElement(self.information["panel"]["text_pos"], new_text, self.text.font)
+
 

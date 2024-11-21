@@ -31,7 +31,7 @@ class ButtonElement(UIElement):
         destination.blit(self.sprite_surface, self.information["uielement"]["position"])
 
     def update_element(self, input_data: InputData, parent_scene: Scene):
-        if self.get_hitbox().collidepoint(input_data.mouse_pos):
+        if self.get_hitbox().collidepoint(input_data.mouse_pos) and not self.disabled:
             self.is_hovered = True
             input_data.add_to_cursor_queue(pg.SYSTEM_CURSOR_HAND)
         

@@ -21,6 +21,7 @@ class Font():
             self.special.append(special)
         
         self.spacing = formatting["spacing"]
+        self.line_spacing = formatting["line spacing"]
 
         unknown = pg.Rect(formatting["unknown_character"])
         chars.update({"unknown": font_image.subsurface(unknown)})
@@ -52,23 +53,36 @@ class Font():
         
         # second, draw all the characters on the surface
         surf = pg.Surface(surf_size, pg.SRCALPHA)
-        last = 0
-        for c in text:
-            if c not in self.chars.keys():
-                c = "unknown"
-            
-            surf.blit(self.chars[c], [last, 0])
-            last += self.chars[c].get_rect().width + self.spacing
+        
+        top = 0
+        for line in text.split("\n"):
+            left = 0  # what's the position of the next char
+            line_height = 0
+            for c in line:
+                if c not in self.chars.keys():
+                    c = "unknown"
+                
+                surf.blit(self.chars[c], [left, top])
+                left += self.chars[c].get_rect().width + self.spacing
+                line_height = max(line_height, self.chars[c].get_rect().height)
+
+            top += line_height + self.line_spacing
         
         return surf
 
     def get_surf_length(self, text):
         surf_size = [0, self.chars["unknown"].get_rect().h]
-        for c in text:
-            if c not in self.chars.keys():
-                c = "unknown"
+        for line in text.split("\n"):
+            line_height = 0
+            line_width = 0
+            for c in line:
+                if c not in self.chars.keys():
+                    c = "unknown"
+                
+                line_width += self.chars[c].get_rect().width + self.spacing
+                line_height = max(surf_size[1], self.chars[c].get_rect().h)
             
-            surf_size[0] += self.chars[c].get_rect().width + self.spacing
-            surf_size[1] = max(surf_size[1], self.chars[c].get_rect().h)
+            surf_size[0] = max(surf_size[0], line_width)
+            surf_size[1] += line_height + self.line_spacing
         
         return surf_size

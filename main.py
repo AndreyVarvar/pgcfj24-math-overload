@@ -6,6 +6,8 @@ from src.graph import Graph
 from src.font import Font
 from src.constants import *
 
+from src.level_manager import LevelManager
+
 from src.UI.button import ButtonElement
 from src.UI.input_box import InputBoxElement
 from src.UI.panel import Panel
@@ -34,7 +36,8 @@ class Game():
                 "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
                 "level description": Panel("assets/formatting/game/description_panel.json", self.font),
                 "next description page button": ButtonElement("assets/formatting/game/next_page_button.json"),
-                "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json")
+                "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json"),
+                "level manager": LevelManager("assets/levels")
             })
         }
 

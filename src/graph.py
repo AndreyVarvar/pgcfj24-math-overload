@@ -69,33 +69,7 @@ class Graph():
             self.graphing_progress += 1
             self.error_message = "Something went wrong"
             print("Computational error of '", formula, "': ", e)
-
-        if self.interpolate:
-            interpolating = []
-            for element in parent_scene.elements:
-                if parent_scene.elements[element] != self:
-                    interpolating.append(parent_scene.elements[element].interpolate(dt))
-                    
-            self.interpolate = any(interpolating)
-
-        # check for graph updates
-        if input_data.key_pressed == 27 and not self.interpolate:
-            input_data.reset_key_event()
-            self.interpolate = True
-            self.ignore_update_to_remove_this_annoying_update_every_time = not self.ignore_update_to_remove_this_annoying_update_every_time
-
-        if (parent_scene.elements["start graphing button"].was_clicked or input_data.key_pressed == 13) and not self.interpolate:  # 13 - enter key
-            self.interpolate = True
-            input_data.reset_key_event()
-
-            self.valid, formula = self.import_new_formula(parent_scene.elements["graph input box"].text.text)
-
-            if self.valid and not self.ignore_update_to_remove_this_annoying_update_every_time:
-                self.formula = formula
-                self.update_graph = True
-                self.ignore_update_to_remove_this_annoying_update_every_time = True
-            else:
-                self.ignore_update_to_remove_this_annoying_update_every_time = False
+    
 
     
     def _solve_expr(self, expr, unknown):
