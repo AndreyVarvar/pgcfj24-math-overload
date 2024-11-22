@@ -1,0 +1,25 @@
+{
+    "description": [
+        "good job! that\nwas your\nfirst level!",
+        "now, try to\ndraw the line\n10 px higher"
+    ],
+    "hints": [
+        [
+            "hint #1\nthe line is\n10px higher",
+            "hint #1\nthat means\nyou have to",
+            "hint #1\nadd 10 to\nsomething..."
+        ],
+        [
+            "hint #2\nsince its\nhigher, you",
+            "hint #2\nadd 10 to\nthe x side.",
+            "Next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=x+10"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expected": "y=x+10"
+    } 
+}

@@ -12,6 +12,8 @@ class LevelManager():
 
         self.information = self.load_level(self.current_level)
 
+        self.load_next_level = False
+
 
     def update(self, input_data: InputData, parent_scene: Scene, dt):
         graph = parent_scene.elements["graph element"]
@@ -70,6 +72,31 @@ class LevelManager():
                     graph.ignore_update_to_remove_this_annoying_update_every_time = True
                 else:
                     graph.ignore_update_to_remove_this_annoying_update_every_time = False
+        
+        # check if the hint button was pressed
+        if hint_button.was_clicked:
+            if self.information["hints_used"] < len(self.information["hints"]):
+                self.information["hints_used"] += 1
+
+                for hint in self.information["hints"][self.information["hints_used"] - 1]:
+                    self.information["description"].append(hint)
+        
+        # check if the requirement was completed:
+        if graph.graphing_progress == graph.total_drawing_progress:
+            if self.information["requirement"]["type"] == "exact":
+                if graph.formula.replace(' ', '') == self.information["requirement"]["expected"] and graph.update_graph is False:
+                    self.load_next_level = True
+        
+
+        # load next level
+        if self.load_next_level:
+            self.load_next_level = False
+            self.current_level += 1
+            self.information = self.load_level(self.current_level)
+        
+        # DEBUGGING TOOL
+        if start_button.is_clicked:
+            self.information = self.load_level(self.current_level)
 
     def render(self, destination, dt):
         pass
@@ -83,5 +110,10 @@ class LevelManager():
         information["description"] = level_data["description"]
         information["current_description_page"] = 0
         information["pages_read"] = 0
+
+        information["hints"] = level_data["hints"]
+        information["hints_used"] = 0
+
+        information["requirement"] = level_data["requirement"]
 
         return information

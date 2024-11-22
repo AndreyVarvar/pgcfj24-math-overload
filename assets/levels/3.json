@@ -1,0 +1,14 @@
+{
+    "description": [
+        "doing good!"
+    ],
+    "hints": [
+        [
+            ""
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expected": "y=2x"
+    } 
+}

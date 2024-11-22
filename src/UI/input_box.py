@@ -41,7 +41,7 @@ class InputBoxElement(UIElement):
                     if len(self.text.text) > 0:
                         self.text.text = self.text.text[:self.insert_position-1] + self.text.text[self.insert_position:]
                         input_data.reset_key_event()
-                        self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font)
+                        self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font, shadow=True)
                         self.insert_position -= 1
                         self.sound2.play()
 
@@ -56,7 +56,7 @@ class InputBoxElement(UIElement):
                 elif input_data.key_unicode_pressed in self.text.font.chars:
                     if len(self.text.text) < self.information["input_box"]["max_len"]:
                         self.text.text = self.text.text[:self.insert_position] + input_data.key_unicode_pressed + self.text.text[self.insert_position:]
-                        self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font)
+                        self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font, shadow=True)
                         self.insert_position += len(input_data.key_unicode_pressed)
                         input_data.reset_key_event()
                         self.sound.play()
@@ -66,6 +66,8 @@ class InputBoxElement(UIElement):
             if element[0] not in ['!', '.']:
                 self.sprite_surface.blit(self.information["elements"][element][0], self.information["elements"][element][1])
         
+        self.text.render(self.sprite_surface, dt)
+
         if self.focused:
             text_size = self.text.font.get_surf_length(self.text.text[:self.insert_position])
             start_pos = text_size[0] + self.information["input_box"]["input_text_pos"][0] - 1, self.information["input_box"]["input_text_pos"][1]
@@ -77,7 +79,6 @@ class InputBoxElement(UIElement):
             if self.blink:
                 pg.draw.line(self.sprite_surface, PALLETTE["white"], start_pos, end_pos)
         
-        self.text.render(self.sprite_surface, dt)
         destination.blit(self.sprite_surface, self.information["uielement"]["position"])
     
     def load_element_specific_criteria(self, information, formatting, criteria):

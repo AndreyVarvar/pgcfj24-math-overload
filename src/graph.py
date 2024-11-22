@@ -1,7 +1,6 @@
 import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
-import sympy
 from src.utils import bound
 from src.constants import *
 from math import *
@@ -10,7 +9,7 @@ from math import *
 class Graph():
     def __init__(self):
         self.points = set()
-        self.formula = "y = cos(x)"
+        self.formula = ""
 
         self.interpolate = False
         self.ignore_update_to_remove_this_annoying_update_every_time = False
@@ -28,12 +27,14 @@ class Graph():
         self.y_drawing_progress = self.total_drawing_progress
 
         self.graph_width = 64
+
+        self.working_formula = ""
     
     def update(self, input_data: InputData, parent_scene: Scene, dt):
         if self.update_graph:
             self.update_graph = False
             self.graphing_progress = 0
-            self.formula: str = self._process_formula('x', to_swap='x')  # here i use the function to just bring everything to the left hand side
+            self.working_formula: str = self._process_formula(self.formula, 'x', to_swap='x')  # here i use the function to just bring everything to the left hand side
 
         try:
             if self.graphing_progress < self.total_drawing_progress:
@@ -44,7 +45,7 @@ class Graph():
 
                     self.remove_points_with_specific_x(x+32)
 
-                    formula = self.formula.replace('x', f"({x})")  # replaces x with whatever value we are checking right now
+                    formula = self.working_formula.replace('x', f"({x})")  # replaces x with whatever value we are checking right now
                     solutions = self._solve_expr(formula, 'y')
 
                     for solution in solutions:
@@ -54,7 +55,7 @@ class Graph():
                 elif self.graphing_progress < self.y_drawing_progress:
                     y = self.graphing_progress - 64 - 32 # and here as well, graphing progress keeps track of what y we are checking right now
 
-                    formula = self.formula.replace('y', f"({y})")  # replaces y with whatever value we are checking right now
+                    formula = self.working_formula.replace('y', f"({y})")  # replaces y with whatever value we are checking right now
                     solutions = self._solve_expr(formula, 'x')
 
                     for solution in solutions:
@@ -101,9 +102,7 @@ class Graph():
             val += 0.05
         return solutions
 
-    def _process_formula(self, val, to_swap: str) -> str:  # process the formula expression for SymPy to evaluate
-        formula = self.formula
-        
+    def _process_formula(self, formula, val, to_swap: str) -> str:  # process the formula expression for SymPy to evaluate        
         formula = formula.replace(to_swap, "("+str(val)+")")
         lhs, rhs = formula.split('=')   # 'rhs' - right hand side, 'lhs' - left hand side
         formula = lhs + "-(" + rhs + ")"

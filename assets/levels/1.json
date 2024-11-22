@@ -2,10 +2,19 @@
     "description": [
         "Greetings!\nWelcome to\nmath overload!",
         "This is a\ngame about\nmath!",
-        "You will be\ntasked with\ndrawing...",
-        "...different\nfunctions and\ncompleting...",
-        "...many levels!\nFor starters\ntype in the...",
-        "...box above\ny=x   and\npress the...",
-        "...button in\nthe bottom\nright corner"
-    ]
+        "You will be\ntasked with\ndrawing",
+        "different\nfunctions and\ncompleting",
+        "many levels!\nFor starters\ntype in the",
+        "box above\ny=x   and\npress the",
+        "button in\nthe bottom\nright corner"
+    ],
+    "hints": [
+        [
+            "hint #1\nThis is a\nhint button!"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expected": "y=x"
+    } 
 }

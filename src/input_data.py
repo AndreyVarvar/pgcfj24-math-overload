@@ -1,5 +1,4 @@
 import pygame as pg
-from sympy import true
 
 
 class InputData():

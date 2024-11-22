@@ -8,10 +8,10 @@ from math import sin
 
 
 class TextElement(UIElement):
-    def __init__(self, position, text: str, font: Font, woble: bool=False):
+    def __init__(self, position, text: str, font: Font, woble: bool=False, shadow: bool=False):
         super().__init__(None)
         self.position = pg.Vector2(position)
-        self.text_image = font.render(text)
+        self.text_image = font.render(text, shadow)
         self.text = text
         self.font = font
 
