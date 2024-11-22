@@ -8,8 +8,9 @@ from math import *
 
 class Graph():
     def __init__(self):
-        self.points = set()
-        self.formula = ""
+        self.points = [set(), set()]  # second set for the points of the solution
+        self.calculate_solution_graph = True
+        self.formula = ["", "y=x"]
 
         self.interpolate = False
         self.ignore_update_to_remove_this_annoying_update_every_time = False
@@ -28,50 +29,53 @@ class Graph():
 
         self.graph_width = 64
 
-        self.working_formula = ""
+        self.working_formula = ["", ""]
     
     def update(self, input_data: InputData, parent_scene: Scene, dt):
         if self.update_graph:
             self.update_graph = False
             self.graphing_progress = 0
-            self.working_formula: str = self._process_formula(self.formula, 'x', to_swap='x')  # here i use the function to just bring everything to the left hand side
+            print(self.formula)
+            for i in range(1+self.calculate_solution_graph):
+                self.working_formula[i] = self._process_formula(self.formula[i])  # here i use the function to just bring everything to the left hand side
+
+        if self.graphing_progress == self.total_drawing_progress and len(self.points[1]) > 0:
+            self.calculate_solution_graph = False
+    
+
 
         try:
             if self.graphing_progress < self.total_drawing_progress:
                 if self.channel.get_busy() is False:
                     self.channel.play(self.graphin)
+
                 if self.graphing_progress < self.x_drawing_progress: # graphing_progress keeps track of what point (x or y) we are plotting right now
                     x = self.graphing_progress - 32  # here, graphing progress keeps track of what x we are checking right now
 
                     self.remove_points_with_specific_x(x+32)
 
-                    formula = self.working_formula.replace('x', f"({x})")  # replaces x with whatever value we are checking right now
-                    solutions = self._solve_expr(formula, 'y')
+                    for i in range(1+self.calculate_solution_graph):
+                        formula = self.working_formula[i].replace('x', f"({x})")  # replaces x with whatever value we are checking right now
+                        solutions = self._solve_expr(formula, 'y')
 
-                    for solution in solutions:
-                        self.points.add((32+x, 32-round(solution)))
+                        for solution in solutions:
+                            self.points[i].add((32+x, 32-round(solution)))
 
                 
                 elif self.graphing_progress < self.y_drawing_progress:
                     y = self.graphing_progress - 64 - 32 # and here as well, graphing progress keeps track of what y we are checking right now
 
-                    formula = self.working_formula.replace('y', f"({y})")  # replaces y with whatever value we are checking right now
-                    solutions = self._solve_expr(formula, 'x')
+                    for i in range(1+self.calculate_solution_graph):
+                        formula = self.working_formula[i].replace('y', f"({y})")  # replaces y with whatever value we are checking right now
+                        solutions = self._solve_expr(formula, 'x')
 
-                    for solution in solutions:
-                        self.points.add((32+round(solution), 32-y))
+                        for solution in solutions:
+                            self.points[i].add((32+round(solution), 32-y))
                                 
                 self.graphing_progress += 1
-
-        except ValueError:
-            self.graphing_progress += 1
-        except TypeError:
-            self.graphing_progress += 1
-        except ZeroDivisionError:
-            self.graphing_progress += 1
         except Exception as e:
-            print("Congrats! you found a new unknown error:", e)
-            self.graphing_progress = self.total_drawing_progress
+            print("Congrats! you found a new unknown error:", e, " | ", self.formula)
+            self.graphing_progress += 1
     
 
     
@@ -92,20 +96,22 @@ class Graph():
         while val < 32:
             expr1 = expr.replace(unknown, f"({val})")
 
-            # we try to find the unknown by continuesly substituting numbers and checking if the expression is equal to 0 (since that's how sympy solver works)
+            # we try to find the unknown by continuesly substituting numbers and checking if the expression is equal to 0
             # i use eval, because it is very fast, and there is no point in trying to be safe here, since this will be rin on itch and all the user can do, is... hack themselves ig
             result = bound(-33, 33, eval(expr1))
 
             if abs(result) < 0.5:
                 solutions.append(val)
             
-            val += 0.05
+            val += 0.1
         return solutions
 
-    def _process_formula(self, formula, val, to_swap: str) -> str:  # process the formula expression for SymPy to evaluate        
-        formula = formula.replace(to_swap, "("+str(val)+")")
-        lhs, rhs = formula.split('=')   # 'rhs' - right hand side, 'lhs' - left hand side
-        formula = lhs + "-(" + rhs + ")"
+    def _process_formula(self, formula) -> str:  
+        try:     
+            lhs, rhs = formula.split('=')   # 'rhs' - right hand side, 'lhs' - left hand side
+            formula = lhs + "-(" + rhs + ")"
+        except:
+            formula = "2"
 
         return formula
 
@@ -122,8 +128,9 @@ class Graph():
         pg.draw.line(destination, PALLETTE["brown"], (0, 32), (64, 32))
 
         # draw points
-        for point in self.points:
-            destination.set_at(point, PALLETTE["black"])
+        for i in range(2):
+            for point in self.points[i]:
+                destination.set_at(point, PALLETTE[["black", "dark-gray"][i]])
 
         # draw current graphing progress
         if self.graphing_progress < self.total_drawing_progress:
@@ -135,12 +142,13 @@ class Graph():
                 pg.draw.line(destination, PALLETTE["gray"], (0, line_progress), (64, line_progress))
     
     def remove_points_with_specific_x(self, x):
-        points_to_remove = set()
-        for p in self.points:
-            if p[0] == x:
-                points_to_remove.add(p)
-        
-        self.points = self.points - points_to_remove
+        points_to_remove = [set(), set()]
+        for i in range(1+self.calculate_solution_graph):
+            for p in self.points[i]:
+                if p[0] == x:
+                    points_to_remove[i].add(p)
+        for i in range(1+self.calculate_solution_graph):
+            self.points[i] = self.points[i] - points_to_remove[i]
     
     def import_new_formula(self, formula: str):
         # check validity

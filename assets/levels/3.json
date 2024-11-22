@@ -9,6 +9,6 @@
     ],
     "requirement": {
         "type": "exact",
-        "expected": "y=2x"
+        "expect": "y=2x"
     } 
 }

@@ -67,7 +67,7 @@ class LevelManager():
             if graph.valid:
                 graph.interpolate = True
                 if not graph.ignore_update_to_remove_this_annoying_update_every_time:
-                    graph.formula = formula
+                    graph.formula[0] = formula
                     graph.update_graph = True
                     graph.ignore_update_to_remove_this_annoying_update_every_time = True
                 else:
@@ -82,9 +82,10 @@ class LevelManager():
                     self.information["description"].append(hint)
         
         # check if the requirement was completed:
-        if graph.graphing_progress == graph.total_drawing_progress:
+        if graph.graphing_progress == graph.total_drawing_progress and len(graph.points[0]) > 0:
             if self.information["requirement"]["type"] == "exact":
-                if graph.formula.replace(' ', '') == self.information["requirement"]["expected"] and graph.update_graph is False:
+                print(graph.points[0].difference(graph.points[1]))
+                if (graph.points[0] == graph.points[1]) and graph.update_graph is False:
                     self.load_next_level = True
         
 
@@ -93,10 +94,18 @@ class LevelManager():
             self.load_next_level = False
             self.current_level += 1
             self.information = self.load_level(self.current_level)
+            graph.calculate_solution_graph = True
+            if self.information["requirement"]["type"] == "exact":
+                graph.formula[1] = graph.import_new_formula(self.information["requirement"]["expect"])[1]
+                graph.points[1].clear()
         
         # DEBUGGING TOOL
         if start_button.is_clicked:
             self.information = self.load_level(self.current_level)
+            if self.information["requirement"]["type"] == "exact":
+                graph.formula[1] = graph.import_new_formula(self.information["requirement"]["expect"])[1]
+                graph.points[1].clear()
+            
 
     def render(self, destination, dt):
         pass
