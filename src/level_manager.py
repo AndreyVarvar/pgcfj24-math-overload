@@ -20,6 +20,14 @@ class LevelManager():
         panel = parent_scene.elements["level description"]
         next_page = parent_scene.elements["next description page button"]
         prev_page = parent_scene.elements["previous description page button"]
+        hint_button = parent_scene.elements["hint button"]
+        unread_page_notifier = parent_scene.elements["unread page notifier"]
+
+        # update the unread pages notification
+        if self.information["pages_read"] < (len(self.information["description"])-1) and not graph.ignore_update_to_remove_this_annoying_update_every_time:
+            unread_page_notifier.visible = True
+        else:
+            unread_page_notifier.visible = False
 
         # update the description panel
         panel.update_text(self.information["description"][self.information["current_description_page"]])
@@ -29,6 +37,8 @@ class LevelManager():
 
         if next_page.was_clicked:
             self.information["current_description_page"] += 1
+
+            self.information["pages_read"] = max(self.information["pages_read"], self.information["current_description_page"])
         elif prev_page.was_clicked:
             self.information["current_description_page"] -= 1
 
@@ -36,7 +46,7 @@ class LevelManager():
         if graph.interpolate:
             interpolating = []
             for element in parent_scene.elements:
-                if parent_scene.elements[element] not in [graph, start_button, self]:
+                if parent_scene.elements[element] in [input_box, panel, next_page, prev_page, hint_button]:
                     interpolating.append(parent_scene.elements[element].interpolate(dt))
                     
             graph.interpolate = any(interpolating)
@@ -72,5 +82,6 @@ class LevelManager():
 
         information["description"] = level_data["description"]
         information["current_description_page"] = 0
+        information["pages_read"] = 0
 
         return information

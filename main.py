@@ -11,6 +11,7 @@ from src.level_manager import LevelManager
 from src.UI.button import ButtonElement
 from src.UI.input_box import InputBoxElement
 from src.UI.panel import Panel
+from src.UI.text import TextElement
 
 pg.init()
 
@@ -38,6 +39,7 @@ class Game():
                 "next description page button": ButtonElement("assets/formatting/game/next_page_button.json"),
                 "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json"),
                 "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
+                "unread page notifier": TextElement((50, 40), "&", self.font, True),
                 "level manager": LevelManager("assets/levels")
             })
         }
