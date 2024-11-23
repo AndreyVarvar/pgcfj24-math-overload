@@ -1,10 +1,19 @@
 {
     "description": [
-        "doing good!"
+        "doing good!\nNow, you can\nmultiply the",
+        "x side to\nincrease the\nslope",
+        "of the line.\nYour task\nis to",
+        "draw a line\nthat\nincreases",
+        "2 times\nfaster"
     ],
     "hints": [
         [
-            ""
+            "hint #1\nsince its 2\ntimes faster,",
+            "it means you\nmultiply by\n2 somewhere...",
+            "Next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=2x"
         ]
     ],
     "requirement": {

@@ -101,11 +101,8 @@ class LevelManager():
                     check_graph.clear_points()
             
         # DEBUGGING TOOL
-        # if start_button.is_clicked:
-        #     self.information = self.load_level(self.current_level, check_graph)
-        #     if self.information["requirement"]["type"] == "exact":
-        #         graph.formula[1] = graph.import_new_formula(self.information["requirement"]["expect"])[1]
-        #         graph.points[1].clear()
+        if start_button.is_clicked:
+            self.information = self.load_level(self.current_level, check_graph)
             
 
     def render(self, destination, dt):
@@ -116,6 +113,7 @@ class LevelManager():
             with open(os.path.join(self.level_dir, f"{n}.json"), 'r') as file:
                 level_data = json.load(file)
         except:
+            self.current_level -= 1
             return self.information
         
         information = {}

@@ -1,0 +1,42 @@
+{
+    "textures": {
+        "#1": "assets/sprites/UI/game/view_reference_button.png"
+    },
+    "elements": {
+        "background": {
+            "uv": {"from": [0, 0], "to": [14, 14]},
+            "at": [0, 0],
+            "texture": "#1"
+        },
+        "!on_button_hover": {
+            "uv": {"from": [22, 0], "to": [28, 6]},
+            "at": [4, 4],
+            "texture": "#1"
+        },
+        "!on_button_click": {
+            "uv": {"from": [15, 7], "to": [21, 13]},
+            "at": [4, 4],
+            "texture": "#1"
+        },
+        "!on_button_normal": {
+            "uv": {"from": [15, 0], "to": [21, 6]},
+            "at": [4, 4],
+            "texture": "#1"
+        },
+        "!on_button_disabled": {
+            "uv": {"from": [15, 7], "to": [21, 13]},
+            "at": [4, 4],
+            "texture": "#1"
+        }
+    },
+    "uielement": {
+        "position": [0, 49],
+        "size": [15, 15],
+        "hitbox": {"from": [4, 4], "to": [10, 10]}
+    },
+    "interpolation": {
+        "points": [[0, 49], [64, 64]],
+        "current": 0,
+        "time": 0.5
+    }
+}

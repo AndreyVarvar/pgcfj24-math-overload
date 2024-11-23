@@ -1,0 +1,17 @@
+{
+    "description": [
+        "next"
+    ],
+    "hints": [
+        [
+            "hint #1"
+        ],
+        [
+            "answer\ny=5x-15"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=5x-15"
+    } 
+}

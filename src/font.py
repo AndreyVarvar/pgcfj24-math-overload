@@ -95,13 +95,13 @@ class Font():
 
     def drop_shadow(self, text_surf):
         text_mask = pg.mask.from_surface(text_surf)
-        mask_surf = pg.Surface(text_surf.size)
+        mask_surf = pg.Surface(text_surf.get_size())
         for mask in text_mask.connected_components():
             for pixel in mask.outline():
                 mask_surf.set_at(pixel, (153, 61, 65))
         mask_surf.set_colorkey((0,0,0))
 
-        surf2 = pg.Surface(text_surf.size, pg.SRCALPHA)
+        surf2 = pg.Surface(text_surf.get_size(), pg.SRCALPHA)
         surf2.blit(text_surf, (0, 0))
         text_surf.blit(mask_surf, (1, 1))
         text_surf.blit(surf2, (0, 0))

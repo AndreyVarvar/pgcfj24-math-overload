@@ -13,6 +13,9 @@ class Scene():
         self.new_scene_name = ""
         self.elements = elements
 
+        self.muted_music = False
+        self.muted_sfx = False
+
         self.music_path = music_path
         self.music_playing = False
     

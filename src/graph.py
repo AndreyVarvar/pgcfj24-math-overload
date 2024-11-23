@@ -295,6 +295,8 @@ class Graph():
 
         if valid:
             self.formula = new_formula
+        else:
+            self.formula = "1"
 
         return valid
     

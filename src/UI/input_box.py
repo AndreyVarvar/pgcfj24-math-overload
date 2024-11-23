@@ -71,7 +71,7 @@ class InputBoxElement(UIElement):
         if self.focused:
             text_size = self.text.font.get_surf_length(self.text.text[:self.insert_position])
             start_pos = text_size[0] + self.information["input_box"]["input_text_pos"][0] - 1, self.information["input_box"]["input_text_pos"][1]
-            end_pos = text_size[0] + self.information["input_box"]["input_text_pos"][0] - 1, self.information["input_box"]["input_text_pos"][1] + self.text.font.chars["unknown"].height
+            end_pos = text_size[0] + self.information["input_box"]["input_text_pos"][0] - 1, self.information["input_box"]["input_text_pos"][1] + self.text.font.chars["unknown"].get_height()
 
             if self.blinker.tick(dt):
                 self.blink = not self.blink
