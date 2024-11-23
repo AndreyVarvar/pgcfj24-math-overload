@@ -1,0 +1,26 @@
+{
+    "description": [
+        "here comes\na tough\none!"
+    ],
+    "hints": [
+        [
+            "hint #1\nthe graph is\ngoing down",
+            "hint #1\nso the\nargument must",
+            "hint #1\nbe negative"
+        ],
+        [
+            "hint #2\nthe slope\nis offsetted",
+            "hint #2\nby 6px\nhigher",
+            "hint #2\nmeaning we\nadd 6 to",
+            "hint #2\nsomething...",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=-2x+6"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=-2x+6"
+    } 
+}

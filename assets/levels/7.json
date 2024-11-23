@@ -1,0 +1,25 @@
+{
+    "description": [
+        "an argument\nbefore x\ncan change",
+        "the wideness\nof the\nparabolla",
+        "play around\nwith\nfractions,",
+        "positive and\nnegative\nnumbers",
+        "and when\nready, solve\nthis puzzle"
+    ],
+    "hints": [
+        [
+            "hint #1\nparabolla\nis wider",
+            "hint #1\nmeaning we\nmultiply by",
+            "hint #1\na number\nbetween 1 and",
+            "hint #1\n0...",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=0.1x^2"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=0.1x^2"
+    } 
+}

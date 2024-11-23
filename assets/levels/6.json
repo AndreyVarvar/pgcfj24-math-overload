@@ -1,0 +1,16 @@
+{
+    "description": [
+        "ok, we are\ndone with\nlines",
+        "next come\nparabolas!",
+        "a simple\nparabola will\nbe y=x^2"
+    ],
+    "hints": [
+        [
+            "answer\ny=x^2 or \ny=x*x"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=x^2"
+    } 
+}
