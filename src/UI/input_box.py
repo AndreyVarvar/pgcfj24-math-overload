@@ -23,7 +23,7 @@ class InputBoxElement(UIElement):
 
         self.locked = False
     
-    def update_element(self, input_data: InputData, parent_scene: Scene):
+    def update_element(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
         if self.get_hitbox().collidepoint(input_data.mouse_pos):
             input_data.add_to_cursor_queue(pg.SYSTEM_CURSOR_HAND)
 
@@ -61,7 +61,7 @@ class InputBoxElement(UIElement):
                         input_data.reset_key_event()
                         self.sound.play()
 
-    def render(self, destination: pg.Surface, dt):
+    def render_element(self, destination: pg.Surface, dt):
         for element in self.information["elements"]:
             if element[0] not in ['!', '.']:
                 self.sprite_surface.blit(self.information["elements"][element][0], self.information["elements"][element][1])

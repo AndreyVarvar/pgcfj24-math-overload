@@ -19,8 +19,10 @@ class LevelManager():
         self.interpolate_ui = False
         self.ignore_next_ui_update = False
 
+        self.viewing_reference = False
 
-    def update(self, input_data: InputData, parent_scene: Scene, dt):
+
+    def update(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
         graph: Graph = parent_scene.elements["graph element"]
         check_graph: Graph = parent_scene.elements["checking graph element"]
         start_button = parent_scene.elements["start graphing button"]
@@ -30,6 +32,8 @@ class LevelManager():
         prev_page = parent_scene.elements["previous description page button"]
         hint_button = parent_scene.elements["hint button"]
         unread_page_notifier = parent_scene.elements["unread page notifier"]
+        view_reference_button = parent_scene.elements["view reference button"]
+        reference_text = parent_scene.elements["reference text"]
 
         # load next level
         if self.load_next_level:
@@ -38,10 +42,10 @@ class LevelManager():
             self.information = self.load_level(self.current_level, check_graph)
 
         # update the unread pages notification
-        if self.information["pages_read"] < (len(self.information["description"])-1) and not self.ignore_next_ui_update:
-            unread_page_notifier.visible = True
+        if self.information["pages_read"] < (len(self.information["description"])-1) and not self.ignore_next_ui_update and not self.viewing_reference:
+            unread_page_notifier.toggle_visibility(True)
         else: 
-            unread_page_notifier.visible = False
+            unread_page_notifier.toggle_visibility(False)
 
         # update the description panel
         panel.update_text(self.information["description"][self.information["current_description_page"]])
@@ -99,6 +103,19 @@ class LevelManager():
                 if len(check_graph.points - graph.points) == 0:
                     self.load_next_level = True
                     check_graph.clear_points()
+
+        # check if the reference button was pressed
+        if view_reference_button.was_clicked:
+            graph.toggle_visibility()
+            check_graph.toggle_visibility()
+            start_button.toggle_visibility()
+            input_box.toggle_visibility()
+            panel.toggle_visibility()
+            next_page.toggle_visibility()
+            prev_page.toggle_visibility()
+            hint_button.toggle_visibility()
+            reference_text.toggle_visibility()
+            self.viewing_reference = not self.viewing_reference
             
         # DEBUGGING TOOL
         if start_button.is_clicked:

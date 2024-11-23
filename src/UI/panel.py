@@ -8,7 +8,7 @@ class Panel(UIElement):
         super().__init__(formatting_file_path)
         self.text = TextElement(self.information["panel"]["text_pos"], self.information["panel"]["text"], font)
 
-    def render(self, destination: pg.Surface, dt):
+    def render_element(self, destination: pg.Surface, dt):
         for element in self.information["elements"]:
             if element[0] != '!':
                 self.sprite_surface.blit(self.information["elements"][element][0], self.information["elements"][element][1])

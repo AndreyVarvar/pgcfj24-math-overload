@@ -8,19 +8,17 @@ from math import sin
 
 
 class TextElement(UIElement):
-    def __init__(self, position, text: str, font: Font, woble: bool=False, shadow: bool=False):
-        super().__init__(None)
+    def __init__(self, position, text: str, font: Font, woble: bool=False, shadow: bool=False, visible=True):
+        super().__init__(None, visible=visible)
         self.position = pg.Vector2(position)
         self.text_image = font.render(text, shadow)
         self.text = text
         self.font = font
 
-        self.visible = True
-
         self.woble = woble  # woble text up and down
         self.time = 0
     
-    def render(self, destination: pg.Surface, dt):
+    def render_element(self, destination: pg.Surface, dt):
         position = self.position.copy()
 
         if self.woble:
@@ -30,5 +28,5 @@ class TextElement(UIElement):
         if self.visible:
             destination.blit(self.text_image, position)
     
-    def update(self, input_data: InputData, parent_scene: Scene, dt):
+    def update_element(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
         pass

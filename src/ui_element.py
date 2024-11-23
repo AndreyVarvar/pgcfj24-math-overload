@@ -6,9 +6,11 @@ from src.utils import Timer
 
 
 class UIElement():
-    def __init__(self, formatting_file_path):
+    def __init__(self, formatting_file_path, visible=True):
         self.sprite_surface: pg.Surface
         self.information = self.apply_formatting(formatting_file_path)
+
+        self.visible = visible
     
     def load_formatting(self, formatting_file_path) -> dict:
         
@@ -76,13 +78,18 @@ class UIElement():
 
         return information
     
-    def render(self, destination: pg.Surface):
+    def render(self, destination: pg.Surface, dt):
+        if self.visible:
+            self.render_element(destination, dt)
+
+    def update(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
+        if self.visible:
+            self.update_element(input_data, parent_scene, sound_manager, dt)
+
+    def render_element(self, destination):
         pass
 
-    def update(self, input_data: InputData, parent_scene: Scene, dt):
-        self.update_element(input_data, parent_scene)
-
-    def update_element(self, input_data: InputData, parent_scene: Scene):
+    def update_element(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
         pass
 
     def load_element_specific_criteria(self, information, formatting, criteria) -> bool:
@@ -114,3 +121,9 @@ class UIElement():
 
     def sort_elements_by_layer(self):
         return {k: v for k, v in sorted(self.information["elements"].items(), key=lambda item: item[1][2])}
+
+    def toggle_visibility(self, val=None):
+        if val is None:
+            self.visible = not self.visible
+        else:
+            self.visible = val

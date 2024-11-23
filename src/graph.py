@@ -204,8 +204,8 @@ class Graph():
         self.precision = precision
 
         self.graphing = False
-    
-    def update(self, input_data: InputData, parent_scene: Scene, dt):
+     
+    def update(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
         self.graphing = self.graphing_progress < self.total_graphing_progress
         self.currently_graphing = 'yx'[self.graphing_progress < (self.total_graphing_progress//2)]
 
@@ -345,3 +345,6 @@ class Graph():
     
     def clear_points(self):
         self.points.clear()
+
+    def toggle_visibility(self):
+        self.render_self = not self.render_self

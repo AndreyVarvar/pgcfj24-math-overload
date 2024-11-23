@@ -4,13 +4,28 @@
         "This is a\ngame about\nmath!",
         "You will be\ntasked with\ndrawing",
         "different\nfunctions and\ncompleting",
-        "many levels!\nFor starters\ntype in the",
-        "box above\ny=x   and\npress the",
-        "button in\nthe bottom\nright corner"
+        "many levels!\nFor starters\npress the",
+        "hint button"
     ],
     "hints": [
         [
-            "hint #1\nThis is a\nhint button!"
+            "hint #1\nThis is a\nhint button!",
+            "hint #1\nNow press the\nbottom left",
+            "hint #1\nbutton to\nview your",
+            "hint #1\ntask! When\ndone, use",
+            "hint #1\nthe field\nabove to type",
+            "hint #1\nin the\nfunction",
+            "hint #1\nand then\npress",
+            "hint #1\nbottom right\nbutton to",
+            "hint #1\ncheck your\nsolution"
+        ],
+        [
+            "hint #2\nthis is a\nsimple one!",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer",
+            "y=x"
         ]
     ],
     "requirement": {

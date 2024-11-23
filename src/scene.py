@@ -19,9 +19,9 @@ class Scene():
         self.music_path = music_path
         self.music_playing = False
     
-    def update(self, input_data: InputData, dt):
+    def update(self, input_data: InputData, sound_manager, dt):
         for element in self.elements:
-            self.elements[element].update(input_data, self, dt)  # update every element
+            self.elements[element].update(input_data, self, sound_manager, dt)  # update every element
         
         if self.music_path is not None and self.music_playing is False:
             pg.mixer.music.load(self.music_path)

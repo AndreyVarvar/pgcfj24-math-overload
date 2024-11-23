@@ -16,7 +16,7 @@ class ButtonElement(UIElement):
 
         self.click_sound = pg.mixer.Sound("assets/sfx/button.ogg")
     
-    def render(self, destination, dt):
+    def render_element(self, destination, dt):
         self.sprite_surface.fill((0, 0, 0, 0))  # clear the sprite
 
         draw_special = True
@@ -32,7 +32,7 @@ class ButtonElement(UIElement):
 
         destination.blit(self.sprite_surface, self.information["uielement"]["position"])
 
-    def update_element(self, input_data: InputData, parent_scene: Scene):
+    def update_element(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
         if self.get_hitbox().collidepoint(input_data.mouse_pos) and not self.disabled:
             self.is_hovered = True
             input_data.add_to_cursor_queue(pg.SYSTEM_CURSOR_HAND)

@@ -7,6 +7,7 @@ from src.font import Font
 from src.constants import *
 
 from src.level_manager import LevelManager
+from src.sound_manager import SoundManager
 
 from src.UI.button import ButtonElement
 from src.UI.input_box import InputBoxElement
@@ -32,12 +33,13 @@ class Game():
 
         self.font = Font("assets/formatting/mathematica_font.json")
 
-        pg.mixer.music.set_volume(0.5)
+        pg.mixer.music.set_volume(0.0)
+        self.sound_manager = SoundManager()
 
         self.scenes = {
             "game": Scene({
                 "graph element": Graph(True, 0.05),
-                "checking graph element": Graph(False, 0.5),
+                "checking graph element": Graph(False, 0.1),
                 "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
                 "view reference button": ButtonElement("assets/formatting/game/view_reference_button.json"),
                 "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
@@ -46,6 +48,7 @@ class Game():
                 "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json"),
                 "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
                 "unread page notifier": TextElement((50, 40), "&", self.font, True),
+                "reference text": TextElement((2, 1), "reference graph", self.font, shadow=True, visible=False),
                 "level manager": LevelManager("assets/levels")
             }, "assets/music/game.wav")
         }
@@ -80,7 +83,7 @@ class Game():
         pg.display.update()
     
     def update(self, dt):
-        self.current_scene.update(self.input_data, dt)
+        self.current_scene.update(self.input_data, self.sound_manager, dt)
 
     def handle_events(self):
         events = pg.event.get()
