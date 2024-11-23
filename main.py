@@ -13,6 +13,8 @@ from src.UI.input_box import InputBoxElement
 from src.UI.panel import Panel
 from src.UI.text import TextElement
 
+import asyncio
+
 pg.init()
 
 
@@ -30,9 +32,12 @@ class Game():
 
         self.font = Font("assets/formatting/mathematica_font.json")
 
+        pg.mixer.music.set_volume(0.5)
+
         self.scenes = {
             "game": Scene({
-                "graph element": Graph(),
+                "graph element": Graph(True, 0.05),
+                "checking graph element": Graph(False, 0.5),
                 "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
                 "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
                 "level description": Panel("assets/formatting/game/description_panel.json", self.font),
@@ -41,13 +46,13 @@ class Game():
                 "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
                 "unread page notifier": TextElement((50, 40), "&", self.font, True),
                 "level manager": LevelManager("assets/levels")
-            })
+            }, "assets/music/game.wav")
         }
 
         self.current_scene = self.scenes["game"]
 
     
-    def run(self):
+    async def run(self):
         while self.running:
             dt = self.clock.tick(self.FPS)/1000 + 0.001  # to avoid 'division by 0' error
 
@@ -56,6 +61,8 @@ class Game():
             self.handle_events()
             self.update(dt)
             self.render(dt)
+
+            await asyncio.sleep(0)
 
         pg.quit()
 
@@ -82,5 +89,5 @@ class Game():
             if event.type == pg.QUIT:
                 self.running = False
 
-Game().run()
+asyncio.run(Game().run())
 

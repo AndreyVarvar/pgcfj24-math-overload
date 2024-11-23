@@ -15,6 +15,6 @@
     ],
     "requirement": {
         "type": "exact",
-        "expected": "y=x"
+        "expect": "y=x"
     } 
 }
