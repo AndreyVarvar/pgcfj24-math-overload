@@ -1,10 +1,17 @@
 {
     "description": [
-        "next"
+        "you are\nmaking great\nprogress!",
+        "now try\nthis one!"
     ],
     "hints": [
         [
-            "hint #1"
+            "hint #1\nlooks like\nthe graph",
+            "hint #1\nis 15 px\nlower..."
+        ],
+        [
+            "hint #2\nthe slope\nis increasing",
+            "hint #2\n5 times\nfaster...",
+            "next hint\nwill reveal\nthe answer"
         ],
         [
             "answer\ny=5x-15"

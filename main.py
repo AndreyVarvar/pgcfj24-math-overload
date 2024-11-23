@@ -38,6 +38,7 @@ class Game():
 
         self.scenes = {
             "game": Scene({
+                "level manager": LevelManager("assets/levels"),
                 "graph element": Graph(True, 0.05),
                 "checking graph element": Graph(False, 0.1),
                 "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
@@ -48,8 +49,7 @@ class Game():
                 "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json"),
                 "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
                 "unread page notifier": TextElement((50, 40), "&", self.font, True),
-                "reference text": TextElement((2, 1), "reference graph", self.font, shadow=True, visible=False),
-                "level manager": LevelManager("assets/levels")
+                "reference text": TextElement((2, 1), "reference graph", self.font, shadow=True, visible=False)
             }, "assets/music/game.wav")
         }
 
