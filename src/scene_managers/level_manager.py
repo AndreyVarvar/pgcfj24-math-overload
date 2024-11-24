@@ -3,8 +3,6 @@ from src.input_data import InputData
 import os
 import json
 from src.graph import Graph
-from src.UI.text import TextElement
-import pygame as pg
 from src.constants import PALLETTE
 
 

@@ -1,12 +1,13 @@
 import pygame as pg
 
+from src.scene_managers.main_menu_manager import MainMenuManager
 from src.input_data import InputData
 from src.scene import Scene
 from src.graph import Graph
 from src.font import Font
 from src.constants import *
 
-from src.level_manager import LevelManager
+from src.scene_managers.level_manager import LevelManager
 from src.sound_manager import SoundManager
 
 from src.UI.button import ButtonElement
@@ -50,10 +51,16 @@ class Game():
                 "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
                 "unread page notifier": TextElement((50, 40), "&", self.font, True),
                 "reference text": TextElement((2, 1), "reference graph", self.font, shadow=True, visible=False)
-            }, "assets/music/game.wav")
+            }, "assets/music/game.wav"),
+            "main menu": Scene({
+                "background element": Graph(True, 0.5),
+                "play button": ButtonElement("assets/formatting/main_menu/play_button.json"),
+                "quit button": ButtonElement("assets/formatting/main_menu/quit_button.json"),
+                "manager": MainMenuManager()
+            }, "assets/music/main-menu.wav")
         }
 
-        self.current_scene = self.scenes["game"]
+        self.current_scene = self.scenes["main menu"]
 
     
     async def run(self):
@@ -84,6 +91,14 @@ class Game():
     
     def update(self, dt):
         self.current_scene.update(self.input_data, self.sound_manager, dt)
+
+        if self.current_scene.quit is True:
+            self.running = False
+
+        if self.current_scene.change_scene is True:
+            new_scene_name = self.current_scene.new_scene_name
+            self.current_scene.reset_scene_change()
+            self.current_scene = self.scenes[new_scene_name]
 
     def handle_events(self):
         events = pg.event.get()

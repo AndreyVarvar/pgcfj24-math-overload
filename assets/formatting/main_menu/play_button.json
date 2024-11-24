@@ -1,0 +1,43 @@
+{
+    "textures": {
+        "#1": "assets/sprites/UI/main_menu/play_button.png"
+    },
+    "elements": {
+        "background": {
+            "uv": {"from": [0, 0], "to": [46, 14]},
+            "at": [0, 0],
+            "texture": "#1"
+        },
+        "text": {
+            "uv": {"from": [87, 7], "to": [102, 12]},
+            "at": [15, 4],
+            "texture": "#1",
+            "layer": 1
+        },
+        "!on_button_hover": {
+            "uv": {"from": [86, 0], "to": [124, 6]},
+            "at": [4, 4],
+            "texture": "#1"
+        },
+        "!on_button_click": {
+            "uv": {"from": [47, 7], "to": [85, 13]},
+            "at": [4, 4],
+            "texture": "#1"
+        },
+        "!on_button_normal": {
+            "uv": {"from": [47, 0], "to": [85, 6]},
+            "at": [4, 4],
+            "texture": "#1"
+        },
+        "!on_button_disabled": {
+            "uv": {"from": [47, 7], "to": [85, 13]},
+            "at": [4, 4],
+            "texture": "#1"
+        }
+    },
+    "uielement": {
+        "position": [10, 10],
+        "size": [47, 15],
+        "hitbox": {"from": [4, 4], "to": [42, 10]}
+    }
+}

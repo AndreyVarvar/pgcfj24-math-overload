@@ -1,3 +1,4 @@
+from hmac import new
 import pygame as pg
 from src.input_data import InputData
 
@@ -18,6 +19,8 @@ class Scene():
 
         self.music_path = music_path
         self.music_playing = False
+
+        self.quit = False
     
     def update(self, input_data: InputData, sound_manager, dt):
         for element in self.elements:
@@ -27,3 +30,11 @@ class Scene():
             pg.mixer.music.load(self.music_path)
             pg.mixer.music.play(-1)
             self.music_playing = True
+
+    def change_scenes(self, new_scene_name):
+        self.change_scene = True
+        self.new_scene_name = new_scene_name
+    
+    def reset_scene_change(self):
+        self.change_scene = False
+        self.new_scene_name = ""
