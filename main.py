@@ -5,7 +5,7 @@ from src.input_data import InputData
 from src.scene import Scene
 from src.graph import Graph
 from src.font import Font
-from src.constants import *
+from src.constants import PALLETTE
 
 from src.scene_managers.level_manager import LevelManager
 from src.sound_manager import SoundManager
@@ -34,7 +34,7 @@ class Game():
 
         self.font = Font("assets/formatting/mathematica_font.json")
 
-        pg.mixer.music.set_volume(0.0)
+        pg.mixer.music.set_volume(0.5)
         self.sound_manager = SoundManager()
 
         self.scenes = {
@@ -60,7 +60,7 @@ class Game():
             }, "assets/music/main-menu.wav")
         }
 
-        self.current_scene = self.scenes["game"]
+        self.current_scene = self.scenes["main menu"]
 
     
     async def run(self):

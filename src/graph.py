@@ -36,7 +36,7 @@ class Graph():
             if self.channel.get_busy() is False and self.render_self:
                 self.channel.play(self.graphing_sound)
 
-            if self.formula == "SPECIAL FUNCTION":
+            if self.formula == "SPECIAL FUNCTION" or self.formula == "pygame":
                 if self.graphing_progress >= self.total_graphing_progress//2:
                     self.graphing_progress = self.total_graphing_progress
                 self.clear_previous_points_column(self.graphing_progress)
@@ -125,7 +125,7 @@ class Graph():
     def update_formula(self, new_formula):
         valid, new_formula = self.process_new_formula(new_formula)
 
-        if valid or new_formula == "SPECIAL FUNCTION":
+        if valid or new_formula == "SPECIAL FUNCTION" or new_formula == "pygame":
             self.formula = new_formula
         else:
             self.formula = "1"

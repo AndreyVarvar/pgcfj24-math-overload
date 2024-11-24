@@ -2,7 +2,6 @@ import json
 import pygame as pg
 from src.input_data import InputData
 from src.scene import Scene
-from src.utils import Timer
 
 
 class UIElement():

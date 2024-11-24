@@ -10,7 +10,7 @@ from src.constants import PALLETTE
 class LevelManager():
     def __init__(self, level_dir):
         self.level_dir = level_dir
-        self.current_level = 12
+        self.current_level = 0
 
         self.information = {}
 
