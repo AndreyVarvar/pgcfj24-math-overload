@@ -1,0 +1,19 @@
+{
+    "description": [
+        "good job!\nnext we have\ntrigonometry..",
+        "dont worry\nits not\nthat hard.",
+        "first we\nhave the sin\nfunction",
+        "write\ny=sin(x)\nin the",
+        "input box.\nparentesis\nare important"
+    ],
+    "hints": [
+        [
+            "hint #1\njust write\ny=sin(x)",
+            "hint #1\nits not that\nhard"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=sin(x)"
+    } 
+}

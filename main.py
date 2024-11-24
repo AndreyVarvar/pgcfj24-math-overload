@@ -60,7 +60,7 @@ class Game():
             }, "assets/music/main-menu.wav")
         }
 
-        self.current_scene = self.scenes["main menu"]
+        self.current_scene = self.scenes["game"]
 
     
     async def run(self):

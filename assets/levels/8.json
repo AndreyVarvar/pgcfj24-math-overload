@@ -1,0 +1,22 @@
+{
+    "description": [
+        "same with\nlines, you\ncan offset",
+        "the parabolla\nby adding\nsomething",
+        "to the x\nside."
+    ],
+    "hints": [
+        [
+            "hint #1\nparabolla\nis lower",
+            "hint #1\nmeaning,\nwe subtract",
+            "hint #1\nsomething\nfrom x side...",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=x^2-20"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=x^2-20"
+    } 
+}

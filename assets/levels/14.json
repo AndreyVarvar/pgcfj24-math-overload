@@ -1,0 +1,28 @@
+{
+    "description": [
+        "using all the\nknowledge of\ntrigonometry",
+        "solve this\nproblem"
+    ],
+    "hints": [
+        [
+            "hint #1\nlooks like\nthe function",
+            "hint #1\nused is\ncos..."
+        ],
+        [
+            "hint #2\nlooks like\nfrequency",
+            "hint #2\nis equal to\n0.2..."
+        ],
+        [
+            "hint #3\nlooks like\namplitude is",
+            "hint #3\nequal to\n5",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=5cos(0.2x)"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=5cos(0.2x)"
+    } 
+}

@@ -1,0 +1,28 @@
+{
+    "description": [
+        "now using\nwhat you\nhave learned",
+        "solve this\nproblem"
+    ],
+    "hints": [
+        [
+            "hint #1\nparabolla\nis lower",
+            "hint #1\nmeaning,\nwe subtract",
+            "hint #1\nsomething\nfrom x side...",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "hint #2\nfunction is\nwider",
+            "hint #2\ni think\nwe solved",
+            "hint #2\nsomething\nlike this",
+            "hint #2\nbefore...",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=0.1x^2-10"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=0.1x^2-10"
+    } 
+}

@@ -10,7 +10,7 @@ from src.constants import PALLETTE
 class LevelManager():
     def __init__(self, level_dir):
         self.level_dir = level_dir
-        self.current_level = 3
+        self.current_level = 12
 
         self.information = {}
 
@@ -90,7 +90,7 @@ class LevelManager():
                 
         # check if the hint button was pressed
         if hint_button.was_clicked:
-            if self.information["hints_used"] < len(self.information["hints"]):
+            if self.information["hints_used"] < len(self.information["hints"]) and (self.information["pages_read"] == (len(self.information["description"])-1)):
                 self.information["hints_used"] += 1
 
                 for hint in self.information["hints"][self.information["hints_used"] - 1]:
@@ -99,8 +99,7 @@ class LevelManager():
         # check if the requirement was completed:
         if graph.graphing is False and len(graph.points) > 0 and len(check_graph.points) > 0 and check_graph.graphing is False:
             if self.information["requirement"]["type"] == "exact":
-                # print(graph.points.difference(graph.points))
-                if len(check_graph.points - graph.points) == 0:
+                if len(check_graph.points - graph.points) == 0 and len(graph.points - check_graph.points) < len(graph.points)/3:
                     self.load_next_level = True
                     check_graph.clear_points()
 

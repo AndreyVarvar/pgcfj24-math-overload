@@ -159,15 +159,12 @@ class Graph():
         return valid, formula
 
     def insert_implied_multiplication(self, expression):
-        for c in 'xy':
-            expression = expression.split(c)
-            for i, s in enumerate(expression):
-                if s and (s[-1].isdigit() or s[-1] == ')') and i != (len(expression)-1):
-                    expression[i] += '*'
-                elif s and s[0] == '(' and i != 0:
-                    expression[i] = "*" + expression[i]
-            
-            expression = c.join(expression)
+        indexes = []
+        for i in range(len(expression)-1):
+            if expression[i].isdigit() and (expression[i+1].isdigit() is False and expression[i+1] not in "+-=*/).,"):
+                indexes.append(i+1)
+        for i in indexes[::-1]:
+            expression = expression[:i] + "*" + expression[i:]
         
         for i in range(len(expression)-1, 0, -1):  
             if expression[i-1] == ")" and expression[i] == "(":

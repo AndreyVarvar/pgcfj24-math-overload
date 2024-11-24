@@ -1,0 +1,15 @@
+{
+    "description": [
+        "now try cos\nfunction!"
+    ],
+    "hints": [
+        [
+            "hint #1\nsimilar to\nsin, just",
+            "hint #1\nwrite\ny=cos(x)"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=cos(x)"
+    } 
+}

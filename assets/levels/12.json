@@ -1,0 +1,27 @@
+{
+    "description": [
+        "there are\nmany\ntrigonometric",
+        "functions,\nbut for now\nsin and cos",
+        "are enough.\nok, so next,\nyou can",
+        "multiply the\nx side by\na number",
+        "to increase\nthe amplitude\nof a function"
+    ],
+    "hints": [
+        [
+            "hint #1\nlooks like\nthe function",
+            "hint #1\nused is\nsin..."
+        ],
+        [
+            "hint #2\nlooks like\namiplitude",
+            "hint #2\nis equal to\n10...",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=10sin(x)"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=10sin(x)"
+    } 
+}

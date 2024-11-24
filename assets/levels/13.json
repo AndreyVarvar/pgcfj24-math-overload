@@ -1,0 +1,29 @@
+{
+    "description": [
+        "the argument\ninside the\nfunction",
+        "can change\nthe frequency\nof the",
+        "function.\nfor example\ny=cos(5x)",
+        "will generate\na graph with\na frequency",
+        "5 times bigger\nthan normal.",
+        "with that\nknowledge,\nsolve this",
+        "problem"
+    ],
+    "hints": [
+        [
+            "hint #1\nlooks like\nthe function",
+            "hint #1\nused is\ncos..."
+        ],
+        [
+            "hint #2\nlooks like\nfrequency",
+            "hint #2\nis equal to\n0.5...",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny=cos(0.5x)"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y=cos(0.5x)"
+    } 
+}
