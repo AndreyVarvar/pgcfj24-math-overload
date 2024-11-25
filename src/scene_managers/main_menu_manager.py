@@ -16,6 +16,7 @@ class MainMenuManager():
         graph: Graph = parent_scene.elements["background element"]
         quit_button = parent_scene.elements["quit button"]
         play_button = parent_scene.elements["play button"]
+        hard_button = parent_scene.elements["hard button"]
 
         if self.timer.tick(dt):
             graph.update_formula(choice(self.formulas))
@@ -25,7 +26,9 @@ class MainMenuManager():
             parent_scene.quit = True
 
         if play_button.was_clicked:
-            parent_scene.change_scenes("game")
+            parent_scene.change_scenes("game", {"difficulty": "normal"})
+        elif hard_button.was_clicked:
+            parent_scene.change_scenes("game", {"difficulty": "hard"})
 
 
     def render(self, destination, dt):

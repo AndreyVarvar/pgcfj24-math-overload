@@ -1,0 +1,18 @@
+{
+    "description": [
+        "and this one?"
+    ],
+    "hints": [
+        [
+            "hint #1\nradius is 10",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny^2+x^2=10^2"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y^2+x^2=10^2"
+    } 
+}

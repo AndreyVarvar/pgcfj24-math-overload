@@ -1,0 +1,14 @@
+{
+    "description": [
+        ""
+    ],
+    "hints": [
+        [
+            "NO hints!"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "tan(y)=tan(x)"
+    } 
+}  

@@ -34,14 +34,14 @@ class Game():
 
         self.font = Font("assets/formatting/mathematica_font.json")
 
-        pg.mixer.music.set_volume(0.5)
+        pg.mixer.music.set_volume(0.0)
         self.sound_manager = SoundManager()
 
         self.scenes = {
             "game": Scene({
                 "level manager": LevelManager("assets/levels"),
                 "graph element": Graph(True, 0.05),
-                "checking graph element": Graph(False, 0.1),
+                "checking graph element": Graph(False, 0.05),
                 "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
                 "view reference button": ButtonElement("assets/formatting/game/view_reference_button.json"),
                 "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
@@ -55,6 +55,7 @@ class Game():
             "main menu": Scene({
                 "background element": Graph(True, 0.5),
                 "play button": ButtonElement("assets/formatting/main_menu/play_button.json"),
+                "hard button": ButtonElement("assets/formatting/main_menu/hard_button.json"),
                 "quit button": ButtonElement("assets/formatting/main_menu/quit_button.json"),
                 "manager": MainMenuManager()
             }, "assets/music/main-menu.wav")
@@ -97,8 +98,11 @@ class Game():
 
         if self.current_scene.change_scene is True:
             new_scene_name = self.current_scene.new_scene_name
+            carry_info = self.current_scene.carry_info.copy()
+            
             self.current_scene.reset_scene_change()
             self.current_scene = self.scenes[new_scene_name]
+            self.current_scene.carry_info = carry_info
 
     def handle_events(self):
         events = pg.event.get()

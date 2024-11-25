@@ -161,7 +161,7 @@ class Graph():
     def insert_implied_multiplication(self, expression):
         indexes = []
         for i in range(len(expression)-1):
-            if expression[i].isdigit() and (expression[i+1].isdigit() is False and expression[i+1] not in "+-=*/).,"):
+            if expression[i].isdigit() and (expression[i+1].isdigit() is False and expression[i+1] not in "+-=*/).,^"):
                 indexes.append(i+1)
         for i in indexes[::-1]:
             expression = expression[:i] + "*" + expression[i:]

@@ -1,0 +1,22 @@
+{
+    "description": [
+        "bravo!\napplause!\ncelebration!",
+        "this is the\nlast level of\nthe normal",
+        "mode! if you\nsolved it, be\nproud!",
+        "there is also\na harder mode\nif you are",
+        "still hungry\nfor more!"
+    ],
+    "hints": [
+        [
+            "hint #1\npygame",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\npygame"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "pygame"
+    } 
+}

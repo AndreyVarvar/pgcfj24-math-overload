@@ -1,9 +1,11 @@
+from tabnanny import check
 from src.scene import Scene
 from src.input_data import InputData
 import os
 import json
 from src.graph import Graph
 from src.constants import PALLETTE
+import pygame as pg
 
 
 
@@ -20,6 +22,8 @@ class LevelManager():
         self.ignore_next_ui_update = False
 
         self.viewing_reference = False
+
+        self.bling_sound = pg.mixer.Sound("assets/sfx/bling.ogg")
 
 
     def update(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
@@ -39,7 +43,8 @@ class LevelManager():
         if self.load_next_level:
             self.load_next_level = False
             self.current_level += 1
-            self.information = self.load_level(self.current_level, check_graph)
+            self.information = self.load_level(self.current_level, check_graph, parent_scene)
+            self.bling_sound.play()
 
         # update the unread pages notification
         if self.information["pages_read"] < (len(self.information["description"])-1) and not self.ignore_next_ui_update and not self.viewing_reference:
@@ -117,20 +122,27 @@ class LevelManager():
             self.viewing_reference = not self.viewing_reference
             
         # DEBUGGING TOOL
-        if start_button.is_clicked:
-            self.information = self.load_level(self.current_level, check_graph)
+        # if start_button.is_clicked:
+        #     self.information = self.load_level(self.current_level, check_graph, parent_scene)
             
 
     def render(self, destination, dt):
         pass
 
-    def load_level(self, n, check_graph: Graph):
-        try:
-            with open(os.path.join(self.level_dir, f"{n}.json"), 'r') as file:
-                level_data = json.load(file)
-        except:
-            self.current_level -= 1
-            return self.information
+    def load_level(self, n, check_graph: Graph, parent_scene: Scene):
+        if parent_scene.carry_info["difficulty"] == "hard":
+            if n == 11:
+                parent_scene.change_scenes("main menu", {})
+                n = 1
+            path = os.path.join(self.level_dir, f"h{n}.json")
+        else:
+            if n == 18:
+                parent_scene.change_scenes("main menu", {})
+                n = 1
+            path = os.path.join(self.level_dir, f"{n}.json")
+
+        with open(path, 'r') as file:
+            level_data = json.load(file)
         
         information = {}
 

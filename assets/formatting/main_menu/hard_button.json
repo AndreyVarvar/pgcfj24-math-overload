@@ -9,7 +9,7 @@
             "texture": "#1"
         },
         "text": {
-            "uv": {"from": [104, 7], "to": [119, 12]},
+            "uv": {"from": [87, 13], "to": [102, 18]},
             "at": [15, 4],
             "texture": "#1",
             "layer": 1
@@ -36,7 +36,7 @@
         }
     },
     "uielement": {
-        "position": [10, 45],
+        "position": [10, 27],
         "size": [47, 15],
         "hitbox": {"from": [4, 4], "to": [42, 10]}
     }

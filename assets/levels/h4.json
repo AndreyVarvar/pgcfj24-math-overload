@@ -1,0 +1,14 @@
+{
+    "description": [
+        ""
+    ],
+    "hints": [
+        [
+            "NO hints!"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y^2=x"
+    } 
+}  

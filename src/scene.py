@@ -20,6 +20,8 @@ class Scene():
         self.music_path = music_path
         self.music_playing = False
 
+        self.carry_info = {}
+
         self.quit = False
     
     def update(self, input_data: InputData, sound_manager, dt):
@@ -31,10 +33,12 @@ class Scene():
             pg.mixer.music.play(-1)
             self.music_playing = True
 
-    def change_scenes(self, new_scene_name):
+    def change_scenes(self, new_scene_name, carry_info: dict):
+        self.carry_info = carry_info
         self.change_scene = True
         self.new_scene_name = new_scene_name
     
     def reset_scene_change(self):
         self.change_scene = False
         self.new_scene_name = ""
+        self.carry_info = {}

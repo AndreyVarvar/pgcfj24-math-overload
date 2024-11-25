@@ -1,0 +1,21 @@
+{
+    "description": [
+        "circles!\nyou can draw\na circle",
+        "as a graph\nby typing\ny^2+x^2=r^2",
+        "where r\nis radius.\nTry to solve",
+        "this problem!"
+    ],
+    "hints": [
+        [
+            "hint #1\nradius is 3",
+            "next hint\nwill reveal\nthe answer"
+        ],
+        [
+            "answer\ny^2+x^2=3^2"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y^2+x^2=3^2"
+    } 
+}

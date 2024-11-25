@@ -1,0 +1,18 @@
+
+{
+    "description": [
+        "these levels\nare made for\nthose, who",
+        "need a\nchallenge!\nso here it is",
+        "there are\nno hints in\nhere, so",
+        "good luck!"
+    ],
+    "hints": [
+        [
+            "NO hints!"
+        ]
+    ],
+    "requirement": {
+        "type": "exact",
+        "expect": "y^2+x^2=5^2"
+    } 
+}  
