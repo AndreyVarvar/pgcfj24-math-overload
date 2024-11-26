@@ -5,8 +5,8 @@ import pygame as pg
 
 
 class ButtonElement(UIElement):
-    def __init__(self, format_json_path):
-        super().__init__(format_json_path)
+    def __init__(self, format_json_path, visible=True):
+        super().__init__(format_json_path, visible=visible)
 
         self.is_clicked = False  # clicked and still holding
         self.is_hovered = False

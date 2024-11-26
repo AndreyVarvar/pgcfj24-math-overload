@@ -35,8 +35,14 @@
             "tutorial #5\npress the\nbutton in the",
             "tutorial #5\nbottom left\ncorner to",
             "tutorial #5\nview your\ntask",
-            "tutorial #5\nuse a hint\nif you are",
-            "tutorial #5\nstruggling"
+            "tutorial #5\npress hint\nagain!"
+        ],
+        [
+            "tutorial #6\nwhen you\nsolved the",
+            "tutorial #6\nproblem,\npress the",
+            "tutorial #6\nbutton below\nto advance",
+            "tutorial #6\nnow try to\nsolve this",
+            "tutorial #6\nproblem!"
         ],
         [
             "hint #1\nthis should\nbe a simple",

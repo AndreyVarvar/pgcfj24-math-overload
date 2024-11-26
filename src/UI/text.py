@@ -14,6 +14,7 @@ class TextElement(UIElement):
         self.text_image = font.render(text, shadow)
         self.text = text
         self.font = font
+        self.shadow = shadow
 
         self.woble = woble  # woble text up and down
         self.time = 0
@@ -30,3 +31,7 @@ class TextElement(UIElement):
     
     def update_element(self, input_data: InputData, parent_scene: Scene, sound_manager, dt):
         pass
+
+    def update_text(self, new_text):
+        self.text = new_text
+        self.text_image = self.font.render(new_text, self.shadow)

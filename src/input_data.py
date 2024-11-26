@@ -4,13 +4,15 @@ import pygame as pg
 class InputData():
     def __init__(self):
         # A data holding class to keep all the data in one place.
-        self.mouse_pos: tuple[int, int]
+        self.mouse_pos: pg.Vector2
         self.click_origin: tuple[int, int]
         self.release_pos: tuple[int, int]
         self.mouse_pressed: tuple[bool, bool, bool]
 
         self.just_pressed = False
         self.just_released = False
+
+        self.just_changed_scenes = False
 
         self.cursor_queue = []
 
@@ -25,6 +27,9 @@ class InputData():
             self.cursor_queue.clear()
         else:
             pg.mouse.set_cursor(pg.SYSTEM_CURSOR_ARROW)
+        
+        if self.just_changed_scenes is True:
+            self.just_changed_scenes = False
 
         self.mouse_pos = pg.Vector2(pg.mouse.get_pos())//10  # account for scaled display
         self.mouse_pressed = pg.mouse.get_pressed()

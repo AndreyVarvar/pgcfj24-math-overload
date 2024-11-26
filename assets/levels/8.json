@@ -12,11 +12,11 @@
             "next hint\nwill reveal\nthe answer"
         ],
         [
-            "answer\ny=x^2-20"
+            "answer\ny=x^2-15"
         ]
     ],
     "requirement": {
         "type": "exact",
-        "expect": "y=x^2-20"
+        "expect": "y=x^2-15"
     } 
 }

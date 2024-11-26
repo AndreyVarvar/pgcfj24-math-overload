@@ -38,7 +38,7 @@ class InputBoxElement(UIElement):
         if self.focused and not self.locked:
             if input_data.key_just_pressed:
                 if input_data.key_pressed  == 8:  # backspace
-                    if len(self.text.text) > 0:
+                    if len(self.text.text) > 0 and self.insert_position > 0:
                         self.text.text = self.text.text[:self.insert_position-1] + self.text.text[self.insert_position:]
                         input_data.reset_key_event()
                         self.text = TextElement(self.information["input_box"]["input_text_pos"], self.text.text, self.text.font, shadow=True)

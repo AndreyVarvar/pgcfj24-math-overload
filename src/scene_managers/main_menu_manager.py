@@ -26,9 +26,9 @@ class MainMenuManager():
             parent_scene.quit = True
 
         if play_button.was_clicked:
-            parent_scene.change_scenes("game", {"difficulty": "normal"})
+            parent_scene.change_scenes("game")
         elif hard_button.was_clicked:
-            parent_scene.change_scenes("game", {"difficulty": "hard"})
+            parent_scene.change_scenes("hard game")
 
 
     def render(self, destination, dt):

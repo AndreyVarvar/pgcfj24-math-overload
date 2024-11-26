@@ -39,15 +39,37 @@ class Game():
 
         self.scenes = {
             "game": Scene({
-                "level manager": LevelManager("assets/levels"),
-                "graph element": Graph(True, 0.05),
-                "checking graph element": Graph(False, 0.05),
+                "level manager": LevelManager("assets/levels", 17),
+                "graph element": Graph(True, 0.1),
+                "checking graph element": Graph(False, 0.1),
+                "mouse x pos": TextElement((50, 50), "x ", self.font, False, visible=False, shadow=True),
+                "mouse y pos": TextElement((50, 50), "y ", self.font, False, visible=False, shadow=True),
                 "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
                 "view reference button": ButtonElement("assets/formatting/game/view_reference_button.json"),
                 "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
                 "level description": Panel("assets/formatting/game/description_panel.json", self.font),
                 "next description page button": ButtonElement("assets/formatting/game/next_page_button.json"),
                 "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json"),
+                "to main menu button": ButtonElement("assets/formatting/game/to_main_menu_button.json", visible=False),
+                "next level button": ButtonElement("assets/formatting/game/next_level_button.json"),
+                "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
+                "unread page notifier": TextElement((50, 40), "&", self.font, True),
+                "reference text": TextElement((2, 1), "reference graph", self.font, shadow=True, visible=False)
+            }, "assets/music/game.wav"),
+            "hard game": Scene({
+                "level manager": LevelManager("assets/hard_levels", 10),
+                "graph element": Graph(True, 0.1),
+                "checking graph element": Graph(False, 0.1),
+                "mouse x pos": TextElement((50, 50), "x ", self.font, False, visible=False, shadow=True),
+                "mouse y pos": TextElement((50, 50), "y ", self.font, False, visible=False, shadow=True),
+                "start graphing button": ButtonElement("assets/formatting/game/start_graphing_button.json"),
+                "view reference button": ButtonElement("assets/formatting/game/view_reference_button.json"),
+                "graph input box": InputBoxElement("assets/formatting/game/formula_input_box.json", self.font),
+                "level description": Panel("assets/formatting/game/description_panel.json", self.font),
+                "next description page button": ButtonElement("assets/formatting/game/next_page_button.json"),
+                "previous description page button": ButtonElement("assets/formatting/game/previous_page_button.json"),
+                "to main menu button": ButtonElement("assets/formatting/game/to_main_menu_button.json", visible=False),
+                "next level button": ButtonElement("assets/formatting/game/next_level_button.json"),
                 "hint button": ButtonElement("assets/formatting/game/hint_button.json"),
                 "unread page notifier": TextElement((50, 40), "&", self.font, True),
                 "reference text": TextElement((2, 1), "reference graph", self.font, shadow=True, visible=False)
@@ -98,11 +120,11 @@ class Game():
 
         if self.current_scene.change_scene is True:
             new_scene_name = self.current_scene.new_scene_name
-            carry_info = self.current_scene.carry_info.copy()
-            
+
             self.current_scene.reset_scene_change()
             self.current_scene = self.scenes[new_scene_name]
-            self.current_scene.carry_info = carry_info
+
+            self.input_data.just_changed_scenes = True
 
     def handle_events(self):
         events = pg.event.get()

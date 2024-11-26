@@ -9,6 +9,6 @@
     ],
     "requirement": {
         "type": "exact",
-        "expect": "y^2=x^2"
+        "expect": "y^2=abs(x)"
     } 
 }  
