@@ -102,7 +102,7 @@ class Graph():
 
             val = -32
 
-            while val < 32:
+            while val < 31:
                 expr1 = formula.replace(solve_for, f"({val})")
 
                 # we try to find the unknown by continuesly substituting numbers and checking if the expression is equal to 0

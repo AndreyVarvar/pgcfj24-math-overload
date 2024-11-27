@@ -19,8 +19,9 @@ class LevelManager():
 
         self.last_level = max_levels+1
 
-        self.interpolate_ui = False
-        self.ignore_next_ui_update = False
+        self.ui_hidden = False
+        self.interpolating = False
+        self.start_interpolating = False
 
         self.viewing_reference = False
 
@@ -52,6 +53,7 @@ class LevelManager():
             self.current_level += 1
 
             if self.current_level == self.last_level:
+                parent_scene.change_scenes("main menu")
                 self.current_level = 1
             
             self.reload = True
@@ -61,7 +63,7 @@ class LevelManager():
             self.information = self.load_level(self.current_level, check_graph, parent_scene)
 
         # update the unread pages notification
-        if self.information["pages_read"] < (len(self.information["description"])-1) and not self.ignore_next_ui_update and not self.viewing_reference:
+        if self.information["pages_read"] < (len(self.information["description"])-1) and not self.ui_hidden and not self.viewing_reference:
             unread_page_notifier.toggle_visibility(True)
         else: 
             unread_page_notifier.toggle_visibility(False)
@@ -80,32 +82,31 @@ class LevelManager():
             self.information["current_description_page"] -= 1
 
         # update interpolation stuff
-        if input_data.key_pressed == 27 and not self.interpolate_ui and not self.viewing_reference:  # 27 - escape key
+        if input_data.key_pressed == 27 and not self.interpolating and not self.viewing_reference:  # 27 - escape key
             input_data.reset_key_event()
-            self.interpolate_ui = True
-            self.ignore_next_ui_update = not self.ignore_next_ui_update
 
-        if self.interpolate_ui:
-            interpolating = []
-            for element in parent_scene.elements:
-                if parent_scene.elements[element] in [input_box, panel, next_page, prev_page, hint_button, next_level_button]:
-                    interpolating.append(parent_scene.elements[element].interpolate(dt))
-                    
-            self.interpolate_ui = all(interpolating)
+            self.start_interpolating = True
+            self.ui_hidden = not self.ui_hidden
+
+        if self.start_interpolating:
+            self.start_interpolating = False
+            for element in [input_box, panel, next_page, prev_page, hint_button, next_level_button]:
+                element.start_interpolating(self.ui_hidden)
+        self.interpolating = any([element.interpolate(dt) for element in [input_box, panel, next_page, prev_page, hint_button, next_level_button]])
 
         # update the graph
-        if (start_button.was_clicked or input_data.key_pressed == 13) and not self.interpolate_ui:  # 13 - enter key
+        if (start_button.was_clicked or input_data.key_pressed == 13) and not self.interpolating:  # 13 - enter key
             input_data.reset_key_event()
 
             # graph.valid, formula = graph.import_new_formula(input_box.text.text)
             valid = graph.update_formula(input_box.text.text)
 
-            if not self.ignore_next_ui_update:
+            if not self.ui_hidden:
                 graph.start_graphing()
 
             if valid:
-                self.ignore_next_ui_update = not self.ignore_next_ui_update
-                self.interpolate_ui = True
+                self.ui_hidden = not self.ui_hidden
+                self.start_interpolating = True
                 
         # check if the to_main_menu button was pressed
         if to_main_menu_button.was_clicked:
@@ -120,10 +121,9 @@ class LevelManager():
         
         # check if the requirement was completed:
         if graph.graphing is False and len(graph.points) > 0 and len(check_graph.points) > 0 and check_graph.graphing is False:
-            if len(check_graph.points - graph.points) == 0 and len(graph.points - check_graph.points) < len(graph.points)/3:
-                if next_level_button.disabled is True:
-                    self.interpolate_ui = True
-                    self.ignore_next_ui_update = not self.ignore_next_ui_update
+            if len(check_graph.points - graph.points) == 0 and len(graph.points - check_graph.points) == 0:
+                if next_level_button.information["interpolation"]["to"] != 0:
+                    next_level_button.start_interpolating(0)
                 next_level_button.disabled = False
             else:
                 next_level_button.disabled = True
@@ -133,6 +133,8 @@ class LevelManager():
 
         if next_level_button.was_clicked:
             if self.information["requirement"]["type"] == "exact":
+                self.ui_hidden = False
+                self.start_interpolating = True
                 self.load_next_level = True
                 check_graph.clear_points()
 
@@ -151,7 +153,7 @@ class LevelManager():
             next_level_button.toggle_visibility()
             self.viewing_reference = not self.viewing_reference
 
-        if self.viewing_reference or self.ignore_next_ui_update:
+        if self.viewing_reference or self.ui_hidden:
             mouse_x_pos_text.toggle_visibility(True)
             mouse_y_pos_text.toggle_visibility(True)
 
@@ -201,4 +203,3 @@ class LevelManager():
             check_graph.start_graphing()
 
         return information
-    

@@ -57,7 +57,7 @@ class Game():
                 "reference text": TextElement((2, 1), "reference graph", self.font, shadow=True, visible=False)
             }, "assets/music/game.wav"),
             "hard game": Scene({
-                "level manager": LevelManager("assets/hard_levels", 10),
+                "level manager": LevelManager("assets/hard_levels", 11),
                 "graph element": Graph(True, 0.1),
                 "checking graph element": Graph(False, 0.1),
                 "mouse x pos": TextElement((50, 50), "x ", self.font, False, visible=False, shadow=True),

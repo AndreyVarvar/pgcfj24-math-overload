@@ -64,6 +64,8 @@ class UIElement():
                 information["interpolation"]["current"] = formatting["interpolation"]["current"]
                 information["interpolation"]["time"] = formatting["interpolation"]["time"]
                 information["interpolation"]["time_lapsed"] = 0
+                information["interpolation"]["interpolating"] = False
+                information["interpolation"]["to"] = 0
             
             else:
                 if criteria not in information:
@@ -94,29 +96,33 @@ class UIElement():
     def load_element_specific_criteria(self, information, formatting, criteria) -> bool:
         pass
 
+    def start_interpolating(self, to):
+        self.information["interpolation"]["interpolating"] = True
+        self.information["interpolation"]["to"] = to
+
     def get_hitbox(self):
         hitbox = self.information["uielement"]["hitbox"].copy()
         hitbox = hitbox.move(self.information["uielement"]["position"])
         return hitbox
     
     def interpolate(self, dt):
-        next_index = self.information["interpolation"]["current"] + 1
-        if next_index >= len(self.information["interpolation"]["points"]):
-            next_index = 0
+        if self.information["interpolation"]["interpolating"]:
+            next_index = (self.information["interpolation"]["current"] + 1) if self.information["interpolation"]["to"] == -1 else self.information["interpolation"]["to"]
+            if next_index >= len(self.information["interpolation"]["points"]) or next_index < 0:
+                next_index = 0
 
-        self.information["interpolation"]["time_lapsed"] += dt
-        ratio = self.information["interpolation"]["time_lapsed"] / self.information["interpolation"]["time"]
+            self.information["interpolation"]["time_lapsed"] += dt
+            ratio = self.information["interpolation"]["time_lapsed"] / self.information["interpolation"]["time"]
 
-        if ratio >= 1:
-            self.information["interpolation"]["current"] += 1
-            self.information["interpolation"]["time_lapsed"] -= self.information["interpolation"]["time"]
-            if self.information["interpolation"]["current"] >= len(self.information["interpolation"]["points"]):
-                self.information["interpolation"]["current"] = 0
-            self.information["uielement"]["position"] = self.information["interpolation"]["points"][self.information["interpolation"]["current"]].copy()
-            return False
-        else:
-            self.information["uielement"]["position"] = pg.math.Vector2.smoothstep(self.information["interpolation"]["points"][self.information["interpolation"]["current"]], self.information["interpolation"]["points"][next_index], ratio)
-            return True
+            if ratio >= 1:
+                self.information["interpolation"]["current"] = next_index
+                self.information["interpolation"]["time_lapsed"] -= self.information["interpolation"]["time"]
+                self.information["uielement"]["position"] = self.information["interpolation"]["points"][self.information["interpolation"]["current"]].copy()
+                self.information["interpolation"]["interpolating"] = False
+            else:
+                self.information["uielement"]["position"] = pg.math.Vector2.smoothstep(self.information["interpolation"]["points"][self.information["interpolation"]["current"]], self.information["interpolation"]["points"][next_index], ratio)
+        
+        return self.information["interpolation"]["interpolating"]
 
     def sort_elements_by_layer(self):
         return {k: v for k, v in sorted(self.information["elements"].items(), key=lambda item: item[1][2])}

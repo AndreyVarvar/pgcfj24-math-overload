@@ -1,5 +1,7 @@
 {
-    "description": [],
+    "description": [
+        "this is\nthe last\nhard level!"
+    ],
     "hints": [
         [
             "NO hints!"
@@ -7,6 +9,6 @@
     ],
     "requirement": {
         "type": "exact",
-        "expect": "cos(y)=cos(x)"
+        "expect": "y=x*cos(x)"
     } 
 }  
